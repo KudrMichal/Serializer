@@ -19,7 +19,6 @@ class TestClass {
     /**
      * Public for acccesibility test
      * @XML-Attribute attr
-     * @XML_TargetType string
      * @var string
      */
     private $attribute = "attributeTest";
@@ -27,14 +26,12 @@ class TestClass {
     /**
      * Protected for acccesibility test
      * @XML-Element numTest
-     * @XML_TargetType integer
      * @var integer
      */
     protected $numberTest = 123;
 
     /**
      * @XML-Element
-     * @XML_TargetType string
      * @var string
      */
     public $stringTest = "stringTest";
@@ -53,21 +50,18 @@ class TestClass {
     /**
      * @XML-Element datetimeTest
      * @XML-DateTime Y-m-d h:i:s
-     * @XML-TargetType DateTime
      * @var \DateTime
      */
     public $dateTest;
 
     /**
      * @XML-Element
-     * @XML-TargetType KudrMichal\Xml\Tests\Serialization\Classes\TestClass
      * @var TestSubClass
      */
     public $subClass;
 
     /**
      * @XML-Element assocArrayTest
-     * @XML-TargetType []
      * @var string[]
      */
     public $associativeArrayTest = ["key1" => "key1Value", "key2" => "key2Value"];
@@ -75,7 +69,6 @@ class TestClass {
     /**
      * @XML-Element
      * @XML-ArrayElement value
-     * @XML-TargetType string[]
      * @var string[]
      */
     public $unassociativeArrayTest = ["value1", "value2", "value3"];
@@ -83,7 +76,6 @@ class TestClass {
     /**
      * @XML-Element
      * @XML-ArrayElement TestClass
-     * @XML-TargetType KudrMichal\Xml\Tests\Serialization\Classes\TestSubClass[]
      * @var TestSubClass[]
      */
     public $objectArrayTest = [];
