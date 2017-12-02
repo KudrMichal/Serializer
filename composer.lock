@@ -4,9 +4,36 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e74ca36beb06bb6693be4368f7717a34",
-    "content-hash": "10e1eca12fa4e0bfc737e716b68d0a80",
-    "packages": [],
+    "hash": "08adccedc94717d2d346ad3a1c6e9a16",
+    "content-hash": "d4d9d11a8975bf24281d129c23726d33",
+    "packages": [
+        {
+            "name": "kudrmichal/annotations",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KudrMichal/annotations.git",
+                "reference": "ba0714600e5bf1eb54e4f7807c64187030b70ed9"
+            },
+            "require-dev": {
+                "nette/tester": "~1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "authors": [
+                {
+                    "name": "Michal Kudr",
+                    "email": "kudrmichal@sgmail.com"
+                }
+            ],
+            "description": "Library for annotation reading",
+            "time": "2017-10-18 19:49:19"
+        }
+    ],
     "packages-dev": [
         {
             "name": "nette/tester",
@@ -67,7 +94,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "kudrmichal/annotations": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

@@ -482,7 +482,7 @@ class Serializer {
                                             throw UnserializableException::classNotFound($matches['class']);
                                         }
                                         $newObject = (new \ReflectionClass($matches['class']))->newInstanceWithoutConstructor();
-                                        var_dump($newObject);
+
                                         $this->_deserializeObject($el, $newObject);
                                         $values[] = $newObject;
                                     } else {
