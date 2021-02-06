@@ -1,25 +1,35 @@
 {
-  "name": "kudrmichal/xml",
-  "description": "XML library",
-  "authors": [
-    {
-      "name": "Michal Kudr",
-      "email": "kudrmichal@gmail.com"
-    }
-  ],
-  "require": {
-    "kudrmichal/annotations": "dev-master"
-  },
-  "require-dev": {
-    "nette/tester": "~1.0"
-  },
-  "autoload": {
-    "classmap": ["src/"]
-  },
-  "repositories": [
-    {
-      "type": "git",
-      "url": "https://github.com/KudrMichal/annotations.git"
-    }
-  ]
+	"name": "kudrmichal/xml-serialize",
+	"description": "description",
+	"minimum-stability": "stable",
+	"license": "proprietary",
+	"authors": [
+		{
+			"name": "michal",
+			"email": "kudrmichal@gmail.com"
+		}
+	],
+	"require": {
+		"doctrine/annotations": "^1.11",
+		"nette/di": "^3.0"
+
+	},
+	"require-dev": {
+		"phpspec/prophecy": "^1.12",
+		"phpunit/phpunit": "^9.5",
+		"phpspec/prophecy-phpunit": "^2.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"KudrMichal\\XmlSerialize\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"KudrMichal\\XmlSerialize\\\\": "tests/"
+		}
+	},
+	"scripts": {
+		"test-unit": "phpunit --testsuite unit --colors=always"
+	}
 }
