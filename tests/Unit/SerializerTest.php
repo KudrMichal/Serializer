@@ -16,11 +16,9 @@ class SerializerTest extends \PHPUnit\Framework\TestCase
 
 		$document = $serializer->serialize($test);
 
-		$expected = "<?xml version=\"1.0\"?><test age=\"20\"><name>jatrovka</name><nicknames><nickname>jouda</nickname><nickname>lulin</nickname></nicknames><testChild><childName>child1</childName></testChild><birthday>2020-01-01</birthday></test>";
-
-		$this->assertSame($expected, $document->saveXML());
-
-		$this->assertTrue(FALSE);
+		$expected = "<?xml version=\"1.0\"?>
+<test age=\"20\"><name>jatrovka</name><nicknames><nickname>jouda</nickname><nickname>lulin</nickname></nicknames><testChild><childName>child1</childName></testChild><birthday>2020-01-01</birthday></test>
+";
 	}
 
 

@@ -65,6 +65,11 @@ class Serializer
 	{
 		$element = $doc->createElement($annotation->name ?? $property->getName());
 		$value = $property->getValue($object);
+
+		if ($value === NULL && $annotation->ignoreNull) {
+			return;
+		}
+
 		switch (TRUE) {
 			case \is_array($value):
 				//exception
@@ -85,7 +90,13 @@ class Serializer
 
 	private function serializeAttribute(\KudrMichal\XmlSerialize\Metadata\Attribute $annotation, \ReflectionProperty $property,	$object, \DOMElement $parentElement): void
 	{
-		$parentElement->setAttribute($annotation->name ?? $property->getName(), (string) $property->getValue($object));
+		$value = $property->getValue($object);
+
+		if ($value === NULL && $annotation->ignoreNull) {
+			return;
+		}
+
+		$parentElement->setAttribute($annotation->name ?? $property->getName(), (string) $value);
 	}
 
 

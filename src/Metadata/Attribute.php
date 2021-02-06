@@ -8,5 +8,6 @@ namespace KudrMichal\XmlSerialize\Metadata;
 class Attribute
 {
 	public ?string $name = NULL;
+	public bool $ignoreNull = FALSE;
 	public ?string $dateFormat = 'd.m.Y';
 }
