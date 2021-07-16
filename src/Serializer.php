@@ -72,7 +72,7 @@ class Serializer
 
 		switch (TRUE) {
 			case \is_array($value):
-				//exception
+				throw \KudrMichal\XmlSerialize\Exception\SerializeException::elementContainsArray($property->getName());
 			case \is_scalar($value):
 				$element->nodeValue = $value;
 				break;
@@ -104,7 +104,7 @@ class Serializer
 	{
 		$element = $doc->createElement($annotation->name ?? $property->getName());
 		if ( ! \is_array($values = $property->getValue($object))) {
-			//exception
+			throw \KudrMichal\XmlSerialize\Exception\SerializeException::elementContainsArray($property->getName());
 		}
 
 		foreach ($values as $value) {

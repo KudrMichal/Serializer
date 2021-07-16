@@ -20,7 +20,7 @@ class Test
 	private int $age = 20;
 
 	/**
-	 * @XML\ElementArray(name="nicknames", itemName="nickname")
+	 * @XML\ElementArray(name="nicknames", itemName="nickname", type="string")
 	 */
 	private array $nicknames = ['jouda', 'lulin'];
 
@@ -32,12 +32,42 @@ class Test
 	/**
 	 * @XML\Element(dateFormat="Y-m-d")
 	 */
-	private \DateTime $birthday;
+	public ?\DateTime $birthday = NULL;
 
 
 	public function __construct()
 	{
 		$this->testChild = new TestChild();
 		$this->birthday = new \DateTime('2020-01-01');
+	}
+
+
+	public function getName(): string
+	{
+		return $this->name;
+	}
+
+
+	public function getAge(): int
+	{
+		return $this->age;
+	}
+
+
+	public function getNicknames(): array
+	{
+		return $this->nicknames;
+	}
+
+
+	public function getTestChild(): TestChild
+	{
+		return $this->testChild;
+	}
+
+
+	public function getBirthday(): ?\DateTime
+	{
+		return $this->birthday;
 	}
 }
