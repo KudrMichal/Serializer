@@ -2,9 +2,6 @@
 
 namespace KudrMichal\XmlSerialize\Tests\Unit;
 
-require_once __DIR__ . '/Classes/Test.php';
-require_once __DIR__ . '/Classes/TestChild.php';
-
 class SerializerTest extends \PHPUnit\Framework\TestCase
 {
 	/**
@@ -19,6 +16,8 @@ class SerializerTest extends \PHPUnit\Framework\TestCase
 		$expected = "<?xml version=\"1.0\"?>
 <test age=\"20\"><name>jatrovka</name><nicknames><nickname>jouda</nickname><nickname>lulin</nickname></nicknames><testChild><childName>child1</childName></testChild><birthday>2020-01-01</birthday></test>
 ";
+
+		$this->assertSame($expected, $document->saveXML());
 	}
 
 

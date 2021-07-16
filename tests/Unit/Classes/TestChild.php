@@ -13,4 +13,10 @@ class TestChild
 	 * @XML\Element
 	 */
 	private string $childName = 'child1';
+
+
+	public function getChildName(): string
+	{
+		return $this->childName;
+	}
 }
