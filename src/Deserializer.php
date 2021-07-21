@@ -5,6 +5,7 @@ namespace KudrMichal\XmlSerialize;
 use KudrMichal\XmlSerialize\Metadata\Attribute;
 use KudrMichal\XmlSerialize\Metadata\Element;
 use KudrMichal\XmlSerialize\Metadata\ElementArray;
+use KudrMichal\XmlSerialize\Metadata\Elements;
 
 class Deserializer
 {
@@ -46,7 +47,6 @@ class Deserializer
 	private function deserializeObject(\DOMElement $element, $object): void
 	{
 		$refl = new \ReflectionClass($object);
-
 		foreach ($refl->getProperties() as $property) {
 			if ( ! $annotations = $this->annotationReader->getPropertyAnnotations($property)) {
 				continue;
@@ -54,6 +54,7 @@ class Deserializer
 
 			$property->setAccessible(TRUE);
 			foreach ($annotations as $annotation) {
+
 				switch (TRUE) {
 					case $annotation instanceof Element:
 						$this->deserializeElement($annotation, $element, $object, $property);
@@ -64,6 +65,9 @@ class Deserializer
 					case $annotation instanceof ElementArray:
 						$this->deserializeElementArray($annotation, $element, $object, $property);
 						break;
+					case $annotation instanceof Elements:
+						$this->deserializeElements($annotation, $element, $object, $property);
+						break;
 				}
 			}
 		}
@@ -73,6 +77,7 @@ class Deserializer
 	private function deserializeElement(Element $annotation, \DOMElement $parentElement, object $object, \ReflectionProperty $property): void
 	{
 		$elements = $parentElement->getElementsByTagName($annotation->name ?? $property->getName());
+
 		if ( ! $elements->count()) {
 			//throw
 		}
@@ -87,15 +92,7 @@ class Deserializer
 		$type = \ltrim((string) $property->getType(), '?');
 
 		switch (TRUE) {
-
-			case $type === \DateTimeInterface::class:
-			case $type === \DateTimeImmutable::class:
-			case $type === \DateTime::class:
-			case $type === 'bool':
-			case $type === 'float':
-			case $type === 'string':
-			case $type === 'int':
-			case $type === NULL:
+			case $this->isNative($type):
 				$property->setValue($object, $this->castValue($type, $element->textContent));
 				break;
 			case \class_exists($type):
@@ -122,9 +119,46 @@ class Deserializer
 
 		$values = [];
 
-		/** @var \DOMNode $item */
+		$type = $annotation->type;
+
+		/** @var \DOMElement $item */
 		foreach ($items as $item) {
-			$values[] = $this->castValue((string) $annotation->type, $item->textContent);
+			switch (TRUE) {
+				case $this->isNative($type):
+					$values[] = $this->castValue((string) $annotation->type, $item->textContent);
+					break;
+				case \class_exists($type):
+					$elementObject = (new \ReflectionClass($type))->newInstanceWithoutConstructor();
+					$this->deserializeObject($parentElement, $elementObject);
+					$values[] = $elementObject;
+					break;
+			}
+		}
+
+		$property->setValue($object, $values);
+	}
+
+
+	public function deserializeElements(Elements $annotation, \DOMElement $parentElement, object $object, \ReflectionProperty $property): void
+	{
+		$items = $parentElement->getElementsByTagName($annotation->name);
+
+		$values = [];
+
+		$type = $annotation->type;
+
+		/** @var \DOMElement $item */
+		foreach ($items as $item) {
+			switch (TRUE) {
+				case $this->isNative($type):
+					$values[] = $this->castValue((string) $annotation->type, $item->textContent);
+					break;
+				case \class_exists($type):
+					$elementObject = (new \ReflectionClass($type))->newInstanceWithoutConstructor();
+					$this->deserializeObject($item, $elementObject);
+					$values[] = $elementObject;
+					break;
+			}
 		}
 
 		$property->setValue($object, $values);
@@ -151,4 +185,23 @@ class Deserializer
 		}
 	}
 
+
+	private function isNative(string $type): bool
+	{
+		$type = \ltrim($type, '?');
+
+		return \in_array(
+			$type,
+			[
+				'bool',
+				'int',
+				'float',
+				'string',
+				'',
+				\DateTimeInterface::class,
+				\DateTimeImmutable::class,
+				\DateTime::class,
+			]
+		);
+	}
 }
