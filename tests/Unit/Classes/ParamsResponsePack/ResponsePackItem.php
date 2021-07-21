@@ -7,13 +7,17 @@ use KudrMichal\XmlSerialize\Metadata as XML;
 class ResponsePackItem
 {
 	/**
-	 * @XML\Element(name="listIntParam")
+	 * @XML\ElementArray(name="listIntParam", itemName="intParamDetail", type="KudrMichal\XmlSerialize\Unit\Classes\ParamsResponsePack\IntParamDetail")
+	 * @var IntParamDetail[]
 	 */
-	private ListIntParam $listIntParam;
+	private array $parameters;
 
 
-	public function getListIntParam(): ListIntParam
+	/**
+	 * @return IntParamDetail[]
+	 */
+	public function getParameters(): array
 	{
-		return $this->listIntParam;
+		return $this->parameters;
 	}
 }

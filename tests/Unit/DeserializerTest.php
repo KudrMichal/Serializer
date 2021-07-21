@@ -19,9 +19,9 @@ class DeserializerTest extends \PHPUnit\Framework\TestCase
 		$this->assertCount(1, $responsePack->getResponsePackItems());
 		$responsePackItem = $responsePack->getResponsePackItems()[0];
 		$this->assertTrue($responsePackItem instanceof \KudrMichal\XmlSerialize\Unit\Classes\ParamsResponsePack\ResponsePackItem);
-		$listItem = $responsePackItem->getListIntParam();
-		$this->assertCount(7, $listItem->getParameters());
-		$nfc = $listItem->getParameters()[0];
+
+		$this->assertCount(7, $responsePackItem->getParameters());
+		$nfc = $responsePackItem->getParameters()[0];
 		$this->assertSame(1, $nfc->getId());
 		$this->assertSame('NFC', $nfc->getName());
 		$this->assertSame('booleanValue', $nfc->getParameterType());
