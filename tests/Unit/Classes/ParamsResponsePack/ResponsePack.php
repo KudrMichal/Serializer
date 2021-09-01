@@ -10,41 +10,6 @@ use KudrMichal\XmlSerialize\Metadata as XML;
 class ResponsePack
 {
 	/**
-	 * @XML\Attribute
-	 */
-	private string $version;
-
-	/**
-	 * @XML\Attribute
-	 */
-	private string $id;
-
-	/**
-	 * @XML\Attribute
-	 */
-	private string $state;
-
-	/**
-	 * @XML\Attribute
-	 */
-	private string $programVersion;
-
-	/**
-	 * @XML\Attribute
-	 */
-	private string $ico;
-
-	/**
-	 * @XML\Attribute
-	 */
-	private string $key;
-
-	/**
-	 * @XML\Attribute
-	 */
-	private string $note;
-
-	/**
 	 * @XML\Elements(name="responsePackItem", type="KudrMichal\XmlSerialize\Unit\Classes\ParamsResponsePack\ResponsePackItem")
 	 */
 	private array $paramsResponsePackItems;

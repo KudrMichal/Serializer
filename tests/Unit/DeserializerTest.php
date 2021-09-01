@@ -22,10 +22,23 @@ class DeserializerTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertCount(7, $responsePackItem->getParameters());
 		$nfc = $responsePackItem->getParameters()[0];
-		$this->assertSame(1, $nfc->getId());
-		$this->assertSame('NFC', $nfc->getName());
-		$this->assertSame('booleanValue', $nfc->getParameterType());
-		$this->assertSame('', $nfc->getDescription());
+		$this->assertSame(1, $nfc->getIntParam()->getId());
+		$this->assertSame('NFC', $nfc->getIntParam()->getName());
+		$this->assertSame('booleanValue', $nfc->getIntParam()->getParameterType());
+		$this->assertSame('', $nfc->getIntParam()->getDescription());
+		$this->assertNull($nfc->getIntParam()->getParameterSettings());
+
+		$ram = $responsePackItem->getParameters()[6];
+		$this->assertSame(8, $ram->getIntParam()->getId());
+		$this->assertSame('Operační paměť', $ram->getIntParam()->getName());
+		$this->assertSame('listValue', $ram->getIntParam()->getParameterType());
+		$this->assertSame('RAM', $ram->getIntParam()->getDescription());
+		$this->assertInstanceOf(\KudrMichal\XmlSerialize\Unit\Classes\ParamsResponsePack\ParameterSettings::class, $ram->getIntParam()->getParameterSettings());
+		$this->assertCount(4, $ram->getIntParam()->getParameterSettings()->getParameterListItems());
+		$this->assertSame(1, $ram->getIntParam()->getParameterSettings()->getParameterListItems()[0]->getId());
+		$this->assertSame('16 GB', $ram->getIntParam()->getParameterSettings()->getParameterListItems()[0]->getName());
+		$this->assertSame('', $ram->getIntParam()->getParameterSettings()->getParameterListItems()[0]->getDescription());
+		$this->assertSame(1, $ram->getIntParam()->getParameterSettings()->getParameterListItems()[0]->getSequence());
 	}
 
 	/**
