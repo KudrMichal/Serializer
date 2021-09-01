@@ -76,18 +76,18 @@ class Deserializer
 
 	private function deserializeElement(Element $annotation, \DOMElement $parentElement, object $object, \ReflectionProperty $property): void
 	{
-		$elements = $parentElement->getElementsByTagName($annotation->name ?? $property->getName());
+		$elements = $this->getElementsByTagName($parentElement, $annotation->name ?? $property->getName());
 
-		if ( ! $elements->count()) {
-			//throw
+		if ( ! count($elements)) {
+			return;
 		}
 
-		if ($elements->count() > 1) {
-			//throw
+		if (count($elements) > 1) {
+			return;
 		}
 
 		/** @var \DOMElement $element */
-		$element = $elements->item(0);
+		$element = $elements[0];
 
 		$type = \ltrim((string) $property->getType(), '?');
 
@@ -115,7 +115,15 @@ class Deserializer
 
 	private function deserializeElementArray(ElementArray $annotation, \DOMElement $parentElement,	object $object,	\ReflectionProperty $property): void
 	{
-		$items = $parentElement->getElementsByTagName($annotation->itemName);
+		$arrayParent = $this->getElementsByTagName($parentElement, $annotation->name);
+
+		if (count($arrayParent) > 1) {
+
+		}
+
+		$arrayParent = \reset($arrayParent);
+
+		$items = $this->getElementsByTagName($arrayParent, $annotation->itemName);
 
 		$values = [];
 
@@ -129,7 +137,7 @@ class Deserializer
 					break;
 				case \class_exists($type):
 					$elementObject = (new \ReflectionClass($type))->newInstanceWithoutConstructor();
-					$this->deserializeObject($parentElement, $elementObject);
+					$this->deserializeObject($item, $elementObject);
 					$values[] = $elementObject;
 					break;
 			}
@@ -141,7 +149,7 @@ class Deserializer
 
 	public function deserializeElements(Elements $annotation, \DOMElement $parentElement, object $object, \ReflectionProperty $property): void
 	{
-		$items = $parentElement->getElementsByTagName($annotation->name);
+		$items = $this->getElementsByTagName($parentElement, $annotation->name);
 
 		$values = [];
 
@@ -203,5 +211,19 @@ class Deserializer
 				\DateTime::class,
 			]
 		);
+	}
+
+
+	private function getElementsByTagName(\DOMElement $parent, string $tagName): array
+	{
+		$elements = [];
+
+		foreach ($parent->childNodes as $child) {
+			if ($child instanceof \DOMElement && $child->localName === $tagName) {
+				$elements[] = $child;
+			}
+		}
+
+		return $elements;
 	}
 }
