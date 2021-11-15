@@ -15,5 +15,9 @@ class XmlSerializeExtension extends \Nette\DI\CompilerExtension
 		$builder->addDefinition($this->prefix('serializer'))
 			->setFactory(\KudrMichal\XmlSerialize\Serializer::class, [$readerDefinition])
 		;
+
+		$builder->addDefinition($this->prefix('deserializer'))
+			->setFactory(\KudrMichal\XmlSerialize\Deserializer::class, [$readerDefinition])
+		;
 	}
 }
