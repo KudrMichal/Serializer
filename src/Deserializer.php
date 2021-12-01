@@ -115,10 +115,14 @@ class Deserializer
 
 	private function deserializeElementArray(ElementArray $annotation, \DOMElement $parentElement,	object $object,	\ReflectionProperty $property): void
 	{
-		$arrayParent = $this->getElementsByTagName($parentElement, $annotation->name);
+		$arrayParent = $this->getElementsByTagName($parentElement, $annotation->name ?? $property->getName());
 
 		if (count($arrayParent) > 1) {
 
+		}
+
+		if ( ! $arrayParent) {
+			return;
 		}
 
 		$arrayParent = \reset($arrayParent);
