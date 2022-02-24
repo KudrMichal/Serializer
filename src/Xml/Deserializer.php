@@ -1,35 +1,30 @@
 <?php declare(strict_types = 1);
 
-namespace KudrMichal\XmlSerialize;
+namespace KudrMichal\Serializer\Xml;
 
-use KudrMichal\XmlSerialize\Metadata\Attribute;
-use KudrMichal\XmlSerialize\Metadata\Element;
-use KudrMichal\XmlSerialize\Metadata\ElementArray;
-use KudrMichal\XmlSerialize\Metadata\Elements;
+use KudrMichal\Serializer\Xml\Metadata\Document;
+use KudrMichal\Serializer\Xml\Metadata\Attribute;
+use KudrMichal\Serializer\Xml\Metadata\Element;
+use KudrMichal\Serializer\Xml\Metadata\ElementArray;
+use KudrMichal\Serializer\Xml\Metadata\Elements;
 
 class Deserializer
 {
 
-	private \Doctrine\Common\Annotations\AnnotationReader $annotationReader;
-
-
-	public function __construct(\Doctrine\Common\Annotations\AnnotationReader $annotationReader)
-	{
-		$this->annotationReader = $annotationReader;
-	}
+	public function __construct(private \Doctrine\Common\Annotations\AnnotationReader $annotationReader) {}
 
 
 	public function deserialize(\DOMDocument $xml, string $class): object
 	{
 		if ( ! \class_exists($class)) {
-			throw \KudrMichal\XmlSerialize\Exception\DeserializeException::classNotFound($class);
+			throw \KudrMichal\Serializer\Xml\Exception\DeserializeException::classNotFound($class);
 		}
 
 		$refl = new \ReflectionClass($class);
 
 		/** @var \KudrMichal\XmlSerialize\Metadata\Document $document */
-		if ( ! $document = $this->annotationReader->getClassAnnotation($refl, \KudrMichal\XmlSerialize\Metadata\Document::class)) {
-			throw \KudrMichal\XmlSerialize\Exception\DeserializeException::documentMissing();
+		if ($document = $this->annotationReader->getClassAnnotation($refl, \KudrMichal\XmlSerialize\Metadata\Document::class)) {
+			throw \KudrMichal\Serializer\Xml\Exception\DeserializeException::documentMissing();
 		}
 
 		$object = $refl->newInstanceWithoutConstructor();

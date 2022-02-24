@@ -1,15 +1,15 @@
 <?php declare(strict_types = 1);
 
-namespace KudrMichal\XmlSerialize\Tests\Unit;
+namespace KudrMichal\Serializer\Tests\Unit;
 
 class SerializerTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @dataProvider getObject
 	 */
-	public function testSerialize(\KudrMichal\XmlSerialize\Tests\Unit\Classes\Test $test): void
+	public function testSerialize(\KudrMichal\Serializer\Tests\Unit\Classes\Test $test): void
 	{
-		$serializer = new \KudrMichal\XmlSerialize\Serializer(new \Doctrine\Common\Annotations\AnnotationReader());
+		$serializer = new \KudrMichal\Serializer\Xml\Serializer(new \Doctrine\Common\Annotations\AnnotationReader());
 
 		$document = $serializer->serialize($test);
 
@@ -23,6 +23,6 @@ class SerializerTest extends \PHPUnit\Framework\TestCase
 
 	public function getObject(): array
 	{
-		return [[new \KudrMichal\XmlSerialize\Tests\Unit\Classes\Test()]];
+		return [[new \KudrMichal\Serializer\Tests\Unit\Classes\Test()]];
 	}
 }

@@ -1,8 +1,8 @@
 <?php declare(strict_types = 1);
 
-namespace KudrMichal\XmlSerialize\Unit\Classes\ParamsResponsePack;
+namespace KudrMichal\Serializer\Unit\Classes\ParamsResponsePack;
 
-use KudrMichal\XmlSerialize\Metadata as XML;
+use KudrMichal\Serializer\Xml\Metadata as XML;
 
 class ListIntParam
 {
@@ -17,7 +17,7 @@ class ListIntParam
 	private \DateTimeImmutable $dateValidFrom;
 
 	/**
-	 * @XML\Elements(name="intParamDetail", type="KudrMichal\XmlSerialize\Unit\Classes\ParamsResponsePack\IntParamDetail")
+	 * @XML\Elements(name="intParamDetail", type="KudrMichal\Serializer\Unit\Classes\ParamsResponsePack\IntParamDetail")
 	 * @var IntParamDetail[]
 	 */
 	private array $parameters;

@@ -1,11 +1,12 @@
 <?php declare(strict_types = 1);
 
-namespace KudrMichal\XmlSerialize\Metadata;
+namespace KudrMichal\Serializer\Xml\Metadata;
 
 /**
  * @Annotation
  */
-class Document
+class Elements
 {
 	public ?string $name = NULL;
+	public ?string $type = NULL;
 }

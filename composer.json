@@ -1,5 +1,5 @@
 {
-	"name": "kudrmichal/xml-serialize",
+	"name": "kudrmichal/serializer",
 	"description": "description",
 	"minimum-stability": "stable",
 	"license": "proprietary",
@@ -21,12 +21,12 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"KudrMichal\\XmlSerialize\\": "src/"
+			"KudrMichal\\Serializer\\": "src/"
 		}
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"KudrMichal\\XmlSerialize\\\\": "tests/"
+			"KudrMichal\\Serializer\\\\": "tests/"
 		}
 	},
 	"scripts": {

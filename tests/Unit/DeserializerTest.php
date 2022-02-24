@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace KudrMichal\XmlSerialize\Tests\Unit;
+namespace KudrMichal\Serializer\Tests\Unit;
 
 class DeserializerTest extends \PHPUnit\Framework\TestCase
 {
@@ -10,15 +10,15 @@ class DeserializerTest extends \PHPUnit\Framework\TestCase
 		$doc = new \DOMDocument();
 		$doc->load(__DIR__ . '/Data/parametry.xml');
 
-		$deserializer = new \KudrMichal\XmlSerialize\Deserializer(new \Doctrine\Common\Annotations\AnnotationReader());
+		$deserializer = new \KudrMichal\Serializer\Xml\Deserializer(new \Doctrine\Common\Annotations\AnnotationReader());
 
-		/** @var \KudrMichal\XmlSerialize\Unit\Classes\ParamsResponsePack\ResponsePack $responsePack */
-		$responsePack = $deserializer->deserialize($doc, \KudrMichal\XmlSerialize\Unit\Classes\ParamsResponsePack\ResponsePack::class);
+		/** @var \KudrMichal\Serializer\Unit\Classes\ParamsResponsePack\ResponsePack $responsePack */
+		$responsePack = $deserializer->deserialize($doc, \KudrMichal\Serializer\Unit\Classes\ParamsResponsePack\ResponsePack::class);
 
-		$this->assertTrue($responsePack instanceof \KudrMichal\XmlSerialize\Unit\Classes\ParamsResponsePack\ResponsePack);
+		$this->assertTrue($responsePack instanceof \KudrMichal\Serializer\Unit\Classes\ParamsResponsePack\ResponsePack);
 		$this->assertCount(1, $responsePack->getResponsePackItems());
 		$responsePackItem = $responsePack->getResponsePackItems()[0];
-		$this->assertTrue($responsePackItem instanceof \KudrMichal\XmlSerialize\Unit\Classes\ParamsResponsePack\ResponsePackItem);
+		$this->assertTrue($responsePackItem instanceof \KudrMichal\Serializer\Unit\Classes\ParamsResponsePack\ResponsePackItem);
 
 		$this->assertCount(7, $responsePackItem->getParameters());
 		$nfc = $responsePackItem->getParameters()[0];
@@ -33,7 +33,7 @@ class DeserializerTest extends \PHPUnit\Framework\TestCase
 		$this->assertSame('Operační paměť', $ram->getIntParam()->getName());
 		$this->assertSame('listValue', $ram->getIntParam()->getParameterType());
 		$this->assertSame('RAM', $ram->getIntParam()->getDescription());
-		$this->assertInstanceOf(\KudrMichal\XmlSerialize\Unit\Classes\ParamsResponsePack\ParameterSettings::class, $ram->getIntParam()->getParameterSettings());
+		$this->assertInstanceOf(\KudrMichal\Serializer\Unit\Classes\ParamsResponsePack\ParameterSettings::class, $ram->getIntParam()->getParameterSettings());
 		$this->assertCount(4, $ram->getIntParam()->getParameterSettings()->getParameterListItems());
 		$this->assertSame(1, $ram->getIntParam()->getParameterSettings()->getParameterListItems()[0]->getId());
 		$this->assertSame('16 GB', $ram->getIntParam()->getParameterSettings()->getParameterListItems()[0]->getName());
@@ -46,10 +46,10 @@ class DeserializerTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testDeserialize(\DOMDocument $document): void
 	{
-		$deserializer = new \KudrMichal\XmlSerialize\Deserializer(new \Doctrine\Common\Annotations\AnnotationReader());
+		$deserializer = new \KudrMichal\Serializer\Xml\Deserializer(new \Doctrine\Common\Annotations\AnnotationReader());
 
-		/** @var \KudrMichal\XmlSerialize\Tests\Unit\Classes\Test $test */
-		$test = $deserializer->deserialize($document, \KudrMichal\XmlSerialize\Tests\Unit\Classes\Test::class);
+		/** @var \KudrMichal\Serializer\Tests\Unit\Classes\Test $test */
+		$test = $deserializer->deserialize($document, \KudrMichal\Serializer\Tests\Unit\Classes\Test::class);
 
 		$this->assertSame('jatrovka 2', $test->getName());
 		$this->assertSame(10, $test->getAge());
