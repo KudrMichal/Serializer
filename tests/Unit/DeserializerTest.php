@@ -46,7 +46,7 @@ class DeserializerTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testDeserialize(\DOMDocument $document): void
 	{
-		$deserializer = new \KudrMichal\Serializer\Xml\Deserializer(new \Doctrine\Common\Annotations\AnnotationReader());
+		$deserializer = new \KudrMichal\Serializer\Xml\Deserializer();
 
 		/** @var \KudrMichal\Serializer\Tests\Unit\Classes\Test $test */
 		$test = $deserializer->deserialize($document, \KudrMichal\Serializer\Tests\Unit\Classes\Test::class);
