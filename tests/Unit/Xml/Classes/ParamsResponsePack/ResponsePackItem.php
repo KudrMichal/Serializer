@@ -6,7 +6,11 @@ use KudrMichal\Serializer\Xml\Metadata as XML;
 
 class ResponsePackItem
 {
-	#[XML\ElementArray(name:"listIntParam", itemName:"intParamDetail", type:"KudrMichal\Serializer\Unit\Xml\Classes\ParamsResponsePack\IntParamDetail")]
+	#[XML\ElementArray(
+		name: "listIntParam",
+		itemName: "intParamDetail",
+		type: \KudrMichal\Serializer\Unit\Xml\Classes\ParamsResponsePack\IntParamDetail::class)
+	]
 	private array $parameters;
 
 
