@@ -10,8 +10,7 @@
 		}
 	],
 	"require": {
-		"doctrine/annotations": "^1.11",
-		"nette/di": "^3.0"
+		"doctrine/annotations": "^1.11"
 
 	},
 	"require-dev": {
