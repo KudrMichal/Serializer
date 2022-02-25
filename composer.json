@@ -9,10 +9,6 @@
 			"email": "kudrmichal@gmail.com"
 		}
 	],
-	"require": {
-		"doctrine/annotations": "^1.11"
-
-	},
 	"require-dev": {
 		"phpspec/prophecy": "^1.12",
 		"phpunit/phpunit": "^9.5",
