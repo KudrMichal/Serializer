@@ -4,39 +4,25 @@ namespace KudrMichal\Serializer\Tests\Unit\Classes;
 
 use KudrMichal\Serializer\Xml\Metadata as XML;
 
-/**
- * @XML\Document(name="test")
- */
+#[XML\Document(name:"test")]
 class Test
 {
-	/**
-	 * @XML\Element(name="name")
-	 */
+	#[XML\Element(name:"name")]
 	private string $name = "jatrovka";
 
-	/**
-	 * @XML\Attribute(name="age")
-	 */
+	#[XML\Attribute(name:"age")]
 	private int $age = 20;
 
-	/**
-	 * @XML\ElementArray(name="nicknames", itemName="nickname", type="string")
-	 */
+	#[XML\ElementArray(name:"nicknames", itemName:"nickname", type:"string")]
 	private array $nicknames = ['jouda', 'lulin'];
 
-	/**
-	 * @XML\Element
-	 */
+	#[XML\Element]
 	private \KudrMichal\XmlSerialize\Unit\Classes\Nicknames $nestedNicknames;
 
-	/**
-	 * @XML\Element
-	 */
+	#[XML\Element]
 	private TestChild $testChild;
 
-	/**
-	 * @XML\Element(dateFormat="Y-m-d")
-	 */
+	#[XML\Element(dateFormat:"Y-m-d")]
 	public ?\DateTime $birthday = NULL;
 
 

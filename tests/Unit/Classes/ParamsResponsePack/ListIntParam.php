@@ -6,20 +6,13 @@ use KudrMichal\Serializer\Xml\Metadata as XML;
 
 class ListIntParam
 {
-	/**
-	 * @XML\Attribute
-	 */
+	#[XML\Attribute]
 	private \DateTimeImmutable $dateTimeStamp;
 
-	/**
-	 * @XML\Attribute
-	 */
+	#[XML\Attribute]
 	private \DateTimeImmutable $dateValidFrom;
 
-	/**
-	 * @XML\Elements(name="intParamDetail", type="KudrMichal\Serializer\Unit\Classes\ParamsResponsePack\IntParamDetail")
-	 * @var IntParamDetail[]
-	 */
+	#[XML\Elements(name:"intParamDetail", type:"KudrMichal\Serializer\Unit\Classes\ParamsResponsePack\IntParamDetail")]
 	private array $parameters;
 
 
@@ -34,7 +27,9 @@ class ListIntParam
 		return $this->dateValidFrom;
 	}
 
-
+	/**
+	 * @var IntParamDetail[]
+	 */
 	public function getParameters(): array
 	{
 		return $this->parameters;

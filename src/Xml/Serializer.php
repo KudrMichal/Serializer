@@ -2,21 +2,15 @@
 
 namespace KudrMichal\Serializer\Xml;
 
+use KudrMichal\Serializer\Xml\Exception\SerializeException;
 use KudrMichal\Serializer\Xml\Metadata\Document;
 use KudrMichal\Serializer\Xml\Metadata\Attribute;
 use KudrMichal\Serializer\Xml\Metadata\Element;
 use KudrMichal\Serializer\Xml\Metadata\ElementArray;
+use KudrMichal\Serializer\Xml\Metadata\Elements;
 
 class Serializer
 {
-	private \Doctrine\Common\Annotations\AnnotationReader $annotationReader;
-
-
-	public function __construct(\Doctrine\Common\Annotations\AnnotationReader $annotationReader)
-	{
-		$this->annotationReader = $annotationReader;
-	}
-
 
 	/**
 	 * @param object $object
@@ -28,15 +22,14 @@ class Serializer
 		$doc = new \DOMDocument();
 
 		$reflection = new \ReflectionClass($object);
+		/** @var Document $document */
+		$document = $reflection->getAttributes(Document::class)[0]->newInstance();
 
-		/** @var Document $root */
-		$root = $this->annotationReader->getClassAnnotation($reflection, Document::class);
-
-		if ( ! $root) {
-			throw \KudrMichal\XmlSerialize\Exception\SerializeException::documentMissingException();
+		if ( ! $document) {
+			throw SerializeException::documentMissingException();
 		}
 
-		$doc->appendChild($root = $doc->createElement($root->name));
+		$doc->appendChild($root = $doc->createElement($document->getName()));
 
 		$this->serializeObject($object, $root, $doc);
 
@@ -49,25 +42,25 @@ class Serializer
 		$refl = new \ReflectionClass($object);
 
 		foreach ($refl->getProperties() as $property) {
-			$annotations = $this->annotationReader->getPropertyAnnotations($property);
+			$annotations = $property->getAttributes();
 			if ( ! $annotations) {
 				continue;
 			}
 
 			$property->setAccessible(TRUE);
 			foreach ($annotations as $annotation) {
-				switch (TRUE) {
-					case $annotation instanceof Element:
-						$this->serializeElement($annotation, $property, $object, $element, $doc);
+				switch ($annotation->getName()) {
+					case Element::class:
+						$this->serializeElement($annotation->newInstance(), $property, $object, $element, $doc);
 						continue 2;
-					case $annotation instanceof Attribute:
-						$this->serializeAttribute($annotation, $property, $object, $element);
+					case Attribute::class:
+						$this->serializeAttribute($annotation->newInstance(), $property, $object, $element);
 						continue 2;
-					case $annotation instanceof ElementArray:
-						$this->serializeElementArray($annotation, $property, $object, $element, $doc);
+					case ElementArray::class:
+						$this->serializeElementArray($annotation->newInstance(), $property, $object, $element, $doc);
 						continue 2;
-					case $annotation instanceof \KudrMichal\XmlSerialize\Metadata\Elements:
-						$this->serializeElements($annotation, $property, $property->getValue($object), $element, $doc);
+					case Elements::class:
+						$this->serializeElements($annotation->newInstance(), $property, $property->getValue($object), $element, $doc);
 						continue 2;
 
 				}
@@ -78,21 +71,21 @@ class Serializer
 
 	private function serializeElement(Element $annotation, \ReflectionProperty $property, $object, \DOMElement $parentElement, \DOMDocument $doc): void
 	{
-		$element = $doc->createElement($annotation->name ?? $property->getName());
+		$element = $doc->createElement($annotation->getName() ?? $property->getName());
 		$value = $property->getValue($object);
 
-		if ($value === NULL && $annotation->ignoreNull) {
+		if ($value === NULL && $annotation->isIgnoringNull()) {
 			return;
 		}
 
 		switch (TRUE) {
 			case \is_array($value):
-				throw \KudrMichal\Serializer\Xml\Exception\SerializeException::elementContainsArray($property->getName());
+				throw SerializeException::elementContainsArray($property->getName());
 			case \is_scalar($value):
 				$element->nodeValue = $value;
 				break;
 			case $value instanceof \DateTimeInterface:
-				$element->nodeValue = $value->format($annotation->dateFormat);
+				$element->nodeValue = $value->format($annotation->getDateFormat());
 				break;
 			case \is_object($value):
 				$this->serializeObject($value, $element, $doc);
@@ -107,26 +100,26 @@ class Serializer
 	{
 		$value = $property->getValue($object);
 
-		if ($value === NULL && $annotation->ignoreNull) {
+		if ($value === NULL && $annotation->isIgnoreNull()) {
 			return;
 		}
 
-		$parentElement->setAttribute($annotation->name ?? $property->getName(), (string) $value);
+		$parentElement->setAttribute($annotation->getName() ?? $property->getName(), (string) $value);
 	}
 
 
 	private function serializeElementArray(ElementArray $annotation, \ReflectionProperty $property, $object, \DOMElement $parentElement, \DOMDocument $doc): void
 	{
-		$element = $doc->createElement($annotation->name ?? $property->getName());
+		$element = $doc->createElement($annotation->getName() ?? $property->getName());
 		if ( ! \is_array($values = $property->getValue($object))) {
-			throw \KudrMichal\Serializer\Xml\Exception\SerializeException::elementContainsArray($property->getName());
+			throw SerializeException::elementContainsArray($property->getName());
 		}
 
 		foreach ($values as $value) {
-			$itemElement = $doc->createElement($annotation->itemName);
+			$itemElement = $doc->createElement($annotation->getItemName());
 			switch (TRUE) {
 				case \is_array($value):
-					throw \KudrMichal\XmlSerialize\Exception\SerializeException::elementContainsArray($property->getName());
+					throw SerializeException::elementContainsArray($property->getName());
 				case \is_scalar($value):
 					$itemElement->nodeValue = $value;
 					break;
@@ -142,17 +135,17 @@ class Serializer
 	}
 
 
-	private function serializeElements(\KudrMichal\XmlSerialize\Metadata\Elements $annotation, \ReflectionProperty $property, $values, \DOMElement $parentElement, \DOMDocument $doc): void
+	private function serializeElements(Elements $annotation, \ReflectionProperty $property, $values, \DOMElement $parentElement, \DOMDocument $doc): void
 	{
 		if ( ! is_iterable($values)) {
-			throw \KudrMichal\XmlSerialize\Exception\SerializeException::elementsNotIterableException($property->getName());
+			throw SerializeException::elementsNotIterableException($property->getName());
 		}
 
 		foreach ($values as $value) {
-			$itemElement = $doc->createElement($annotation->name);
+			$itemElement = $doc->createElement($annotation->getName());
 			switch (TRUE) {
 				case \is_array($value):
-					throw \KudrMichal\XmlSerialize\Exception\SerializeException::elementContainsArray($property->getName());
+					throw SerializeException::elementContainsArray($property->getName());
 				case \is_scalar($value):
 					$itemElement->nodeValue = $value;
 					break;

@@ -2,12 +2,10 @@
 
 namespace KudrMichal\XmlSerialize\Unit\Classes;
 
-use KudrMichal\XmlSerialize\Metadata as XML;
+use KudrMichal\Serializer\Xml\Metadata as XML;
 
 class Nicknames
 {
-	/**
-	 * @XML\Elements(name="nickname")
-	 */
+	#[XML\Elements(name:"nickname")]
 	private array $nicknames = ['hola', 'ahoj'];
 }
