@@ -1,13 +1,13 @@
 <?php declare(strict_types = 1);
 
-namespace KudrMichal\Serializer\Unit\Classes\ParamsResponsePack;
+namespace KudrMichal\Serializer\Unit\Xml\Classes\ParamsResponsePack;
 
 use KudrMichal\Serializer\Xml\Metadata as XML;
 
 #[XML\Document(name:"responsePack")]
 class ResponsePack
 {
-	#[XML\Elements(name:"responsePackItem", type:"KudrMichal\Serializer\Unit\Classes\ParamsResponsePack\ResponsePackItem")]
+	#[XML\Elements(name:"responsePackItem", type:"KudrMichal\Serializer\Unit\Xml\Classes\ParamsResponsePack\ResponsePackItem")]
 	private array $paramsResponsePackItems;
 
 

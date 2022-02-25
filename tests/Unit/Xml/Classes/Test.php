@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace KudrMichal\Serializer\Tests\Unit\Classes;
+namespace KudrMichal\Serializer\Tests\Unit\Xml\Classes;
 
 use KudrMichal\Serializer\Xml\Metadata as XML;
 
@@ -17,7 +17,7 @@ class Test
 	private array $nicknames = ['jouda', 'lulin'];
 
 	#[XML\Element]
-	private \KudrMichal\XmlSerialize\Unit\Classes\Nicknames $nestedNicknames;
+	private Nicknames $nestedNicknames;
 
 	#[XML\Element]
 	private TestChild $testChild;
@@ -30,7 +30,7 @@ class Test
 	{
 		$this->testChild = new TestChild();
 		$this->birthday = new \DateTime('2020-01-01');
-		$this->nestedNicknames = new \KudrMichal\XmlSerialize\Unit\Classes\Nicknames();
+		$this->nestedNicknames = new Nicknames();
 	}
 
 
