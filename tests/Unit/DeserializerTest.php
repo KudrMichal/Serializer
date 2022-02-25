@@ -10,7 +10,7 @@ class DeserializerTest extends \PHPUnit\Framework\TestCase
 		$doc = new \DOMDocument();
 		$doc->load(__DIR__ . '/Data/parametry.xml');
 
-		$deserializer = new \KudrMichal\Serializer\Xml\Deserializer(new \Doctrine\Common\Annotations\AnnotationReader());
+		$deserializer = new \KudrMichal\Serializer\Xml\Deserializer();
 
 		/** @var \KudrMichal\Serializer\Unit\Classes\ParamsResponsePack\ResponsePack $responsePack */
 		$responsePack = $deserializer->deserialize($doc, \KudrMichal\Serializer\Unit\Classes\ParamsResponsePack\ResponsePack::class);
