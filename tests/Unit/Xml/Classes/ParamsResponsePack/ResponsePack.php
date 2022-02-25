@@ -7,7 +7,10 @@ use KudrMichal\Serializer\Xml\Metadata as XML;
 #[XML\Document(name:"responsePack")]
 class ResponsePack
 {
-	#[XML\Elements(name:"responsePackItem", type:"KudrMichal\Serializer\Unit\Xml\Classes\ParamsResponsePack\ResponsePackItem")]
+	#[XML\Elements(
+		name: "responsePackItem",
+		type: \KudrMichal\Serializer\Unit\Xml\Classes\ParamsResponsePack\ResponsePackItem::class)
+	]
 	private array $paramsResponsePackItems;
 
 

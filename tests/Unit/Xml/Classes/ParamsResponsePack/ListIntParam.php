@@ -12,7 +12,7 @@ class ListIntParam
 	#[XML\Attribute]
 	private \DateTimeImmutable $dateValidFrom;
 
-	#[XML\Elements(name:"intParamDetail", type:"KudrMichal\Serializer\Unit\Xml\Classes\ParamsResponsePack\IntParamDetail")]
+	#[XML\Elements(name:"intParamDetail", type: \KudrMichal\Serializer\Unit\Xml\Classes\ParamsResponsePack\IntParamDetail::class)]
 	private array $parameters;
 
 
