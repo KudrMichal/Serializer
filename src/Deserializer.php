@@ -22,18 +22,14 @@ class Deserializer
 	public function deserialize(\DOMDocument $xml, string $class): object
 	{
 		if ( ! \class_exists($class)) {
-			//throw
+			throw \KudrMichal\XmlSerialize\Exception\DeserializeException::classNotFound($class);
 		}
 
 		$refl = new \ReflectionClass($class);
 
 		/** @var \KudrMichal\XmlSerialize\Metadata\Document $document */
-		if ($document = $this->annotationReader->getClassAnnotation($refl, \KudrMichal\XmlSerialize\Metadata\Document::class)) {
-			//throw
-		}
-
-		if ($xml->documentElement->tagName !== $document->name) {
-			//throw
+		if ( ! $document = $this->annotationReader->getClassAnnotation($refl, \KudrMichal\XmlSerialize\Metadata\Document::class)) {
+			throw \KudrMichal\XmlSerialize\Exception\DeserializeException::documentMissing();
 		}
 
 		$object = $refl->newInstanceWithoutConstructor();
@@ -54,7 +50,6 @@ class Deserializer
 
 			$property->setAccessible(TRUE);
 			foreach ($annotations as $annotation) {
-
 				switch (TRUE) {
 					case $annotation instanceof Element:
 						$this->deserializeElement($annotation, $element, $object, $property);
@@ -116,10 +111,6 @@ class Deserializer
 	private function deserializeElementArray(ElementArray $annotation, \DOMElement $parentElement,	object $object,	\ReflectionProperty $property): void
 	{
 		$arrayParent = $this->getElementsByTagName($parentElement, $annotation->name ?? $property->getName());
-
-		if (count($arrayParent) > 1) {
-
-		}
 
 		if ( ! $arrayParent) {
 			return;
