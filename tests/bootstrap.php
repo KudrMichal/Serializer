@@ -11,3 +11,6 @@ require_once __DIR__ . '/Unit/Classes/ParamsResponsePack/IntParamDetail.php';
 require_once __DIR__ . '/Unit/Classes/ParamsResponsePack/IntParam.php';
 require_once __DIR__ . '/Unit/Classes/ParamsResponsePack/ParameterSettings.php';
 require_once __DIR__ . '/Unit/Classes/ParamsResponsePack/ParameterListItem.php';
+
+require_once __DIR__ . '/Unit/Json/Classes/Test.php';
+require_once __DIR__ . '/Unit/Json/Classes/TestObject.php';

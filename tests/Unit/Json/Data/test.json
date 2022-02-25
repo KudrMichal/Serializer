@@ -1,0 +1,27 @@
+{
+  "testInt": 10,
+  "testString": "string test",
+  "testBoolean": true,
+  "testArray": [1,2,3,4],
+  "testReversedArray": [4,3,2,1],
+  "testObjectsArray": [
+    {
+      "testObjectInt": 12,
+      "testObjectString": "array object string test",
+      "testObjectBoolean": false,
+      "testObjectArray": [10,11,12]
+    },
+    {
+      "testObjectInt": 13,
+      "testObjectString": "array object string test 2",
+      "testObjectBoolean": true,
+      "testObjectArray": [13,14,15]
+    }
+  ],
+  "testObject": {
+    "testObjectInt": 11,
+    "testObjectString": "object string test",
+    "testObjectBoolean": false,
+    "testObjectArray": [5,6,7,8]
+  }
+}
