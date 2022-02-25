@@ -6,9 +6,7 @@ use KudrMichal\Serializer\Xml\Metadata as XML;
 
 class ParameterSettings
 {
-	/**
-	 * @XML\ElementArray(name="parameterList", itemName="parameterListItem", type="KudrMichal\Serializer\Unit\Classes\ParamsResponsePack\ParameterListItem")
-	 */
+	#[XML\ElementArray(name:"parameterList", itemName:"parameterListItem", type:"KudrMichal\Serializer\Unit\Classes\ParamsResponsePack\ParameterListItem")]
 	private array $parameterListItems;
 
 

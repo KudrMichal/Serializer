@@ -4,14 +4,10 @@ namespace KudrMichal\Serializer\Unit\Classes\ParamsResponsePack;
 
 use KudrMichal\Serializer\Xml\Metadata as XML;
 
-/**
- * @XML\Document(name="responsePack")
- */
+#[XML\Document(name:"responsePack")]
 class ResponsePack
 {
-	/**
-	 * @XML\Elements(name="responsePackItem", type="KudrMichal\Serializer\Unit\Classes\ParamsResponsePack\ResponsePackItem")
-	 */
+	#[XML\Elements(name:"responsePackItem", type:"KudrMichal\Serializer\Unit\Classes\ParamsResponsePack\ResponsePackItem")]
 	private array $paramsResponsePackItems;
 
 

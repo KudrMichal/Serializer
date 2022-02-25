@@ -10,34 +10,22 @@ class IntParam
 	public const NUMBER = 'numberValue';
 	public const LIST = 'listValue';
 
-	/**
-	 * @XML\Element
-	 */
+	#[XML\Element]
 	private int $id;
 
-	/**
-	 * @XML\Element
-	 */
+	#[XML\Element]
 	private string $name;
 
-	/**
-	 * @XML\Element
-	 */
+	#[XML\Element]
 	private ?string $description = NULL;
 
-	/**
-	 * @XML\Element
-	 */
+	#[XML\Element]
 	private string $parameterType;
 
-	/**
-	 * @XML\Element
-	 */
+	#[XML\Element]
 	private ?string $note;
 
-	/**
-	 * @XML\Element
-	 */
+	#[XML\Element]
 	private ?ParameterSettings $parameterSettings = NULL;
 
 

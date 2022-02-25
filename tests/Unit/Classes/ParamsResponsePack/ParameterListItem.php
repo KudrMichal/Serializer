@@ -6,24 +6,16 @@ use KudrMichal\Serializer\Xml\Metadata as XML;
 
 class ParameterListItem
 {
-	/**
-	 * @XML\Element
-	 */
+	#[XML\Element]
 	private int $id;
 
-	/**
-	 * @XML\Element
-	 */
+	#[XML\Element]
 	private string $name;
 
-	/**
-	 * @XML\Element
-	 */
+	#[XML\Element]
 	private string $description;
 
-	/**
-	 * @XML\Element
-	 */
+	#[XML\Element]
 	private int $sequence;
 
 

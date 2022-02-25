@@ -2,10 +2,20 @@
 
 namespace KudrMichal\Serializer\Xml\Metadata;
 
-/**
- * @Annotation
- */
+#[\Attribute(\Attribute::TARGET_CLASS)]
 class Document
 {
-	public ?string $name = NULL;
+	private ?string $name = NULL;
+
+
+	public function __construct(?string $name = NULL)
+	{
+		$this->name = $name;
+	}
+
+
+	public function getName(): ?string
+	{
+		return $this->name;
+	}
 }

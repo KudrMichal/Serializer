@@ -6,9 +6,7 @@ use KudrMichal\Serializer\Xml\Metadata as XML;
 
 class IntParamDetail
 {
-	/**
-	 * @XML\Element
-	 */
+	#[XML\Element]
 	private IntParam $intParam;
 
 

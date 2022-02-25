@@ -10,22 +10,20 @@ use KudrMichal\Serializer\Xml\Metadata\Elements;
 
 class Deserializer
 {
-
-	public function __construct(private \Doctrine\Common\Annotations\AnnotationReader $annotationReader) {}
-
-
 	public function deserialize(\DOMDocument $xml, string $class): object
 	{
 		if ( ! \class_exists($class)) {
-			throw \KudrMichal\Serializer\Xml\Exception\DeserializeException::classNotFound($class);
+			\KudrMichal\Serializer\Xml\Exception\DeserializeException::classNotFound($class);
 		}
 
 		$refl = new \ReflectionClass($class);
 
-		/** @var \KudrMichal\XmlSerialize\Metadata\Document $document */
-		if ($document = $this->annotationReader->getClassAnnotation($refl, \KudrMichal\XmlSerialize\Metadata\Document::class)) {
+		if ( ! $documents = $refl->getAttributes(Document::class)) {
 			throw \KudrMichal\Serializer\Xml\Exception\DeserializeException::documentMissing();
 		}
+
+		/** @var Document $document */
+		$document = reset($documents);
 
 		$object = $refl->newInstanceWithoutConstructor();
 
@@ -39,26 +37,18 @@ class Deserializer
 	{
 		$refl = new \ReflectionClass($object);
 		foreach ($refl->getProperties() as $property) {
-			if ( ! $annotations = $this->annotationReader->getPropertyAnnotations($property)) {
+			if ( ! $annotations = $property->getAttributes()) {
 				continue;
 			}
 
 			$property->setAccessible(TRUE);
 			foreach ($annotations as $annotation) {
-				switch (TRUE) {
-					case $annotation instanceof Element:
-						$this->deserializeElement($annotation, $element, $object, $property);
-						break;
-					case $annotation instanceof Attribute:
-						$this->deserializeAttribute($annotation, $element, $object, $property);
-						break;
-					case $annotation instanceof ElementArray:
-						$this->deserializeElementArray($annotation, $element, $object, $property);
-						break;
-					case $annotation instanceof Elements:
-						$this->deserializeElements($annotation, $element, $object, $property);
-						break;
-				}
+				match ($annotation->getName()) {
+					Element::class => $this->deserializeElement($annotation->newInstance(), $element, $object, $property),
+					Attribute::class => $this->deserializeAttribute($annotation->newInstance(), $element, $object, $property),
+					ElementArray::class => $this->deserializeElementArray($annotation->newInstance(), $element, $object, $property),
+					Elements::class => $this->deserializeElements($annotation->newInstance(), $element, $object, $property)
+				};
 			}
 		}
 	}
@@ -66,7 +56,7 @@ class Deserializer
 
 	private function deserializeElement(Element $annotation, \DOMElement $parentElement, object $object, \ReflectionProperty $property): void
 	{
-		$elements = $this->getElementsByTagName($parentElement, $annotation->name ?? $property->getName());
+		$elements = $this->getElementsByTagName($parentElement, $annotation->getName() ?? $property->getName());
 
 		if ( ! count($elements)) {
 			return;
@@ -96,7 +86,7 @@ class Deserializer
 
 	private function deserializeAttribute(Attribute $annotation, \DOMElement $parentElement, object $object, \ReflectionProperty $property): void
 	{
-		$attribute = $parentElement->getAttribute($annotation->name ?? $property->getName());
+		$attribute = $parentElement->getAttribute($annotation->getName() ?? $property->getName());
 		$type = (string) $property->getType();
 
 		$property->setValue($object, $this->castValue($type, $attribute));
@@ -105,7 +95,7 @@ class Deserializer
 
 	private function deserializeElementArray(ElementArray $annotation, \DOMElement $parentElement,	object $object,	\ReflectionProperty $property): void
 	{
-		$arrayParent = $this->getElementsByTagName($parentElement, $annotation->name ?? $property->getName());
+		$arrayParent = $this->getElementsByTagName($parentElement, $annotation->getName() ?? $property->getName());
 
 		if ( ! $arrayParent) {
 			return;
@@ -113,24 +103,24 @@ class Deserializer
 
 		$arrayParent = \reset($arrayParent);
 
-		$items = $this->getElementsByTagName($arrayParent, $annotation->itemName);
+		$items = $this->getElementsByTagName($arrayParent, $annotation->getItemName());
 
 		$values = [];
 
-		$type = $annotation->type;
+		$type = $annotation->getType();
 
 		/** @var \DOMElement $item */
 		foreach ($items as $item) {
 			switch (TRUE) {
 				case $this->isNative($type):
-					$values[] = $this->castValue((string) $annotation->type, $item->textContent);
+					$values[] = $this->castValue((string) $annotation->getType(), $item->textContent);
 					break;
 				case \class_exists($type):
 					$elementObject = (new \ReflectionClass($type))->newInstanceWithoutConstructor();
 					$this->deserializeObject($item, $elementObject);
 					$values[] = $elementObject;
 					break;
-			}
+			};
 		}
 
 		$property->setValue($object, $values);
@@ -139,17 +129,17 @@ class Deserializer
 
 	public function deserializeElements(Elements $annotation, \DOMElement $parentElement, object $object, \ReflectionProperty $property): void
 	{
-		$items = $this->getElementsByTagName($parentElement, $annotation->name);
+		$items = $this->getElementsByTagName($parentElement, $annotation->getName());
 
 		$values = [];
 
-		$type = $annotation->type;
+		$type = $annotation->getType();
 
 		/** @var \DOMElement $item */
 		foreach ($items as $item) {
 			switch (TRUE) {
 				case $this->isNative($type):
-					$values[] = $this->castValue((string) $annotation->type, $item->textContent);
+					$values[] = $this->castValue((string) $annotation->getType(), $item->textContent);
 					break;
 				case \class_exists($type):
 					$elementObject = (new \ReflectionClass($type))->newInstanceWithoutConstructor();
@@ -165,22 +155,14 @@ class Deserializer
 
 	private function castValue(string $type, string $value): float|bool|int|string|\DateTimeImmutable|\DateTime
 	{
-		switch (TRUE) {
-			case $type === \DateTimeInterface::class:
-			case $type === \DateTimeImmutable::class:
-				return new \DateTimeImmutable($value);
-			case $type === \DateTime::class:
-				return new \DateTime($value);
-			case $type === 'bool':
-				return \boolval($value);
-			case $type === 'float':
-				return \floatval($value);
-			case $type === 'string':
-			case $type === '':
-				return \strval($value);
-			case $type === 'int':
-				return \intval($value);
-		}
+		return match ($type) {
+			\DateTimeInterface::class | \DateTimeImmutable::class => new \DateTimeImmutable($value),
+			\DateTime::class => new \DateTime($value),
+			'bool' => \boolval($value),
+			'float' => \floatval($value),
+			'string' | '' => \strval($value),
+			'int' => \intval($value),
+		};
 	}
 
 

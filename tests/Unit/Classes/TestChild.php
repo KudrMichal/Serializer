@@ -4,14 +4,10 @@ namespace KudrMichal\Serializer\Tests\Unit\Classes;
 
 use KudrMichal\Serializer\Xml\Metadata as XML;
 
-/**
- * @XML\Document(name="test")
- */
+#[XML\Document(name:"test")]
 class TestChild
 {
-	/**
-	 * @XML\Element
-	 */
+	#[XML\Element]
 	private string $childName = 'child1';
 
 

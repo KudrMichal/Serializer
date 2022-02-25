@@ -9,7 +9,7 @@ class SerializerTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testSerialize(\KudrMichal\Serializer\Tests\Unit\Classes\Test $test): void
 	{
-		$serializer = new \KudrMichal\Serializer\Xml\Serializer(new \Doctrine\Common\Annotations\AnnotationReader());
+		$serializer = new \KudrMichal\Serializer\Xml\Serializer();
 
 		$document = $serializer->serialize($test);
 
