@@ -27,6 +27,11 @@ class Test
 	/**
 	 * @XML\Element
 	 */
+	private \KudrMichal\XmlSerialize\Unit\Classes\Nicknames $nestedNicknames;
+
+	/**
+	 * @XML\Element
+	 */
 	private TestChild $testChild;
 
 	/**
@@ -39,6 +44,7 @@ class Test
 	{
 		$this->testChild = new TestChild();
 		$this->birthday = new \DateTime('2020-01-01');
+		$this->nestedNicknames = new \KudrMichal\XmlSerialize\Unit\Classes\Nicknames();
 	}
 
 
