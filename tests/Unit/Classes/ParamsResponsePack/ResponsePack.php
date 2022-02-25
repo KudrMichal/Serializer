@@ -1,8 +1,8 @@
 <?php declare(strict_types = 1);
 
-namespace KudrMichal\XmlSerialize\Unit\Classes\ParamsResponsePack;
+namespace KudrMichal\Serializer\Unit\Classes\ParamsResponsePack;
 
-use KudrMichal\XmlSerialize\Metadata as XML;
+use KudrMichal\Serializer\Xml\Metadata as XML;
 
 /**
  * @XML\Document(name="responsePack")
@@ -10,7 +10,7 @@ use KudrMichal\XmlSerialize\Metadata as XML;
 class ResponsePack
 {
 	/**
-	 * @XML\Elements(name="responsePackItem", type="KudrMichal\XmlSerialize\Unit\Classes\ParamsResponsePack\ResponsePackItem")
+	 * @XML\Elements(name="responsePackItem", type="KudrMichal\Serializer\Unit\Classes\ParamsResponsePack\ResponsePackItem")
 	 */
 	private array $paramsResponsePackItems;
 

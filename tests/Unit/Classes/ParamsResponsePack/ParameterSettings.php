@@ -1,13 +1,13 @@
 <?php declare(strict_types = 1);
 
-namespace KudrMichal\XmlSerialize\Unit\Classes\ParamsResponsePack;
+namespace KudrMichal\Serializer\Unit\Classes\ParamsResponsePack;
 
-use KudrMichal\XmlSerialize\Metadata as XML;
+use KudrMichal\Serializer\Xml\Metadata as XML;
 
 class ParameterSettings
 {
 	/**
-	 * @XML\ElementArray(name="parameterList", itemName="parameterListItem", type="KudrMichal\XmlSerialize\Unit\Classes\ParamsResponsePack\ParameterListItem")
+	 * @XML\ElementArray(name="parameterList", itemName="parameterListItem", type="KudrMichal\Serializer\Unit\Classes\ParamsResponsePack\ParameterListItem")
 	 */
 	private array $parameterListItems;
 

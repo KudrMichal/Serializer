@@ -1,8 +1,8 @@
 <?php declare(strict_types = 1);
 
-namespace KudrMichal\XmlSerialize\Tests\Unit\Classes;
+namespace KudrMichal\Serializer\Tests\Unit\Classes;
 
-use KudrMichal\XmlSerialize\Metadata as XML;
+use KudrMichal\Serializer\Xml\Metadata as XML;
 
 /**
  * @XML\Document(name="test")

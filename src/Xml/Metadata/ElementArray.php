@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace KudrMichal\XmlSerialize\Metadata;
+namespace KudrMichal\Serializer\Xml\Metadata;
 
 /**
  * @Annotation

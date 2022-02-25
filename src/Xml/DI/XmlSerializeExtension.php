@@ -1,8 +1,8 @@
 <?php declare(strict_types = 1);
 
-namespace KudrMichal\XmlSerialize\DI;
+namespace KudrMichal\Serializer\Xml\DI;
 
-class XmlSerializeExtension extends \Nette\DI\CompilerExtension
+class SerializerExtension extends \Nette\DI\CompilerExtension
 {
 	public function loadConfiguration(): void
 	{
@@ -13,11 +13,11 @@ class XmlSerializeExtension extends \Nette\DI\CompilerExtension
 			->setAutowired(FALSE);
 
 		$builder->addDefinition($this->prefix('serializer'))
-			->setFactory(\KudrMichal\XmlSerialize\Serializer::class, [$readerDefinition])
+			->setFactory(\KudrMichal\Serializer\Xml\Serializer::class, [$readerDefinition])
 		;
 
 		$builder->addDefinition($this->prefix('deserializer'))
-			->setFactory(\KudrMichal\XmlSerialize\Deserializer::class, [$readerDefinition])
+			->setFactory(\KudrMichal\Serializer\Xml\Deserializer::class, [$readerDefinition])
 		;
 	}
 }
