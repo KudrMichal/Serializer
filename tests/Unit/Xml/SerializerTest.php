@@ -1,13 +1,13 @@
 <?php declare(strict_types = 1);
 
-namespace KudrMichal\Serializer\Tests\Unit;
+namespace KudrMichal\Serializer\Tests\Unit\Xml;
 
 class SerializerTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @dataProvider getObject
 	 */
-	public function testSerialize(\KudrMichal\Serializer\Tests\Unit\Classes\Test $test): void
+	public function testSerialize(\KudrMichal\Serializer\Tests\Unit\Xml\Classes\Test $test): void
 	{
 		$serializer = new \KudrMichal\Serializer\Xml\Serializer();
 
@@ -23,6 +23,6 @@ class SerializerTest extends \PHPUnit\Framework\TestCase
 
 	public function getObject(): array
 	{
-		return [[new \KudrMichal\Serializer\Tests\Unit\Classes\Test()]];
+		return [[new \KudrMichal\Serializer\Tests\Unit\Xml\Classes\Test()]];
 	}
 }

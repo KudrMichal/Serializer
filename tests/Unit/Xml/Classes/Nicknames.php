@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace KudrMichal\XmlSerialize\Unit\Classes;
+namespace KudrMichal\Serializer\Tests\Unit\Xml\Classes;
 
 use KudrMichal\Serializer\Xml\Metadata as XML;
 
