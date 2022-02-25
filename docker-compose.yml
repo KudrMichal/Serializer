@@ -1,7 +1,6 @@
 version: '3'
 
 services:
-
     php:
         image: sheepsoftcz/php:8.0
         volumes:
