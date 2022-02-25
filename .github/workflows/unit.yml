@@ -1,0 +1,22 @@
+name: Unit tests
+on:
+  push:
+    branches-ignore:
+      - 'master'
+
+concurrency:
+  group: unit-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      -   uses: actions/checkout@v2
+      -   name: Start containers and unit test
+          run: |
+            docker-compose run -T composer install --ignore-platform-reqs
+            docker-compose run -T php vendor/bin/phpunit --testsuite unit --colors=always
