@@ -109,7 +109,17 @@ class Serializer
 
 		foreach ($values as $value) {
 			$itemElement = $doc->createElement($annotation->itemName);
-			$itemElement->nodeValue = $value;
+			switch (TRUE) {
+				case \is_array($value):
+					throw \KudrMichal\XmlSerialize\Exception\SerializeException::elementContainsArray($property->getName());
+				case \is_scalar($value):
+					$itemElement->nodeValue = $value;
+					break;
+				case \is_object($value):
+					$this->serializeObject($value, $itemElement, $doc);
+					break;
+			}
+
 			$element->appendChild($itemElement);
 		}
 
