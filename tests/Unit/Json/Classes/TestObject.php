@@ -19,6 +19,15 @@ class TestObject
 	private array $testObjectArray;
 
 
+	public function __construct(int $testObjectInt, string $testObjectString, bool $testObjectBoolean, array $testObjectArray)
+	{
+		$this->testObjectInt = $testObjectInt;
+		$this->testObjectString = $testObjectString;
+		$this->testObjectBoolean = $testObjectBoolean;
+		$this->testObjectArray = $testObjectArray;
+	}
+
+
 	public function getTestObjectInt(): int
 	{
 		return $this->testObjectInt;

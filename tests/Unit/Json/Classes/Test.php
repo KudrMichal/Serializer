@@ -21,11 +21,31 @@ class Test
 	#[JSON\PropertyArray(name:"testReversedArray", type:"int")]
 	private array $testArray2;
 
-	#[JSON\PropertyArray(type:"KudrMichal\Serializer\Unit\Json\Classes\TestObject")]
+	#[JSON\PropertyArray(type:\KudrMichal\Serializer\Unit\Json\Classes\TestObject::class)]
 	private array $testObjectsArray;
 
 	#[JSON\Property]
 	private TestObject $testObject;
+
+
+	public function __construct(
+		int $testInteger,
+		string $testString,
+		bool $testBoolean,
+		array $testArray,
+		array $testArray2,
+		array $testObjectsArray,
+		TestObject $testObject
+	)
+	{
+		$this->testInteger = $testInteger;
+		$this->testString = $testString;
+		$this->testBoolean = $testBoolean;
+		$this->testArray = $testArray;
+		$this->testArray2 = $testArray2;
+		$this->testObjectsArray = $testObjectsArray;
+		$this->testObject = $testObject;
+	}
 
 
 	public function getTestInteger(): int

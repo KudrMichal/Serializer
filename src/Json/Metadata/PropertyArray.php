@@ -7,12 +7,13 @@ class PropertyArray
 {
 	private ?string $name;
 	private ?string $type;
+	private string $dateFormat;
 
-
-	public function __construct(string $name = NULL, string $type = NULL)
+	public function __construct(string $name = NULL, string $type = NULL, string $dateFormat = 'd.m.Y h:i:s')
 	{
 		$this->name = $name;
 		$this->type = $type;
+		$this->dateFormat = $dateFormat;
 	}
 
 
@@ -25,5 +26,11 @@ class PropertyArray
 	public function getType(): ?string
 	{
 		return $this->type;
+	}
+
+
+	public function getDateFormat(): string
+	{
+		return $this->dateFormat;
 	}
 }
