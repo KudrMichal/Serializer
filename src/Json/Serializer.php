@@ -65,6 +65,10 @@ class Serializer
 	{
 		$name = $attribute->getName() ?? $property->getName();
 
+		if (\is_null($property->getValue($object)) && $attribute->isIgnoringNull()) {
+			return;
+		}
+
 		$propertyType = \ltrim((string) $property->getType(), '?');
 		switch (TRUE) {
 			case NativeTypes::isNative($propertyType):
