@@ -2,6 +2,7 @@
 
 namespace KudrMichal\Serializer\Xml;
 
+use KudrMichal\Serializer\Utils\NativeTypes;
 use KudrMichal\Serializer\Xml\Metadata\Document;
 use KudrMichal\Serializer\Xml\Metadata\Attribute;
 use KudrMichal\Serializer\Xml\Metadata\Element;
@@ -72,8 +73,8 @@ class Deserializer
 		$type = \ltrim((string) $property->getType(), '?');
 
 		switch (TRUE) {
-			case $this->isNative($type):
-				$property->setValue($object, $this->castValue($type, $element->textContent));
+			case NativeTypes::isNative($type):
+				$property->setValue($object, NativeTypes::cast($type, $element->textContent));
 				break;
 			case \class_exists($type):
 				$elementObject = (new \ReflectionClass($type))->newInstanceWithoutConstructor();
@@ -89,7 +90,7 @@ class Deserializer
 		$attribute = $parentElement->getAttribute($annotation->getName() ?? $property->getName());
 		$type = (string) $property->getType();
 
-		$property->setValue($object, $this->castValue($type, $attribute));
+		$property->setValue($object, NativeTypes::cast($type, $attribute));
 	}
 
 
@@ -112,8 +113,8 @@ class Deserializer
 		/** @var \DOMElement $item */
 		foreach ($items as $item) {
 			switch (TRUE) {
-				case $this->isNative($type):
-					$values[] = $this->castValue((string) $annotation->getType(), $item->textContent);
+				case NativeTypes::isNative($type):
+					$values[] = NativeTypes::cast((string) $annotation->getType(), $item->textContent);
 					break;
 				case \class_exists($type):
 					$elementObject = (new \ReflectionClass($type))->newInstanceWithoutConstructor();
@@ -138,8 +139,8 @@ class Deserializer
 		/** @var \DOMElement $item */
 		foreach ($items as $item) {
 			switch (TRUE) {
-				case $this->isNative($type):
-					$values[] = $this->castValue((string) $annotation->getType(), $item->textContent);
+				case NativeTypes::isNative($type):
+					$values[] = NativeTypes::cast((string) $annotation->getType(), $item->textContent);
 					break;
 				case \class_exists($type):
 					$elementObject = (new \ReflectionClass($type))->newInstanceWithoutConstructor();
@@ -150,39 +151,6 @@ class Deserializer
 		}
 
 		$property->setValue($object, $values);
-	}
-
-
-	private function castValue(string $type, string $value): float|bool|int|string|\DateTimeImmutable|\DateTime
-	{
-		return match ($type) {
-			\DateTimeInterface::class | \DateTimeImmutable::class => new \DateTimeImmutable($value),
-			\DateTime::class => new \DateTime($value),
-			'bool' => \boolval($value),
-			'float' => \floatval($value),
-			'string' | '' => \strval($value),
-			'int' => \intval($value),
-		};
-	}
-
-
-	private function isNative(string $type): bool
-	{
-		$type = \ltrim($type, '?');
-
-		return \in_array(
-			$type,
-			[
-				'bool',
-				'int',
-				'float',
-				'string',
-				'',
-				\DateTimeInterface::class,
-				\DateTimeImmutable::class,
-				\DateTime::class,
-			]
-		);
 	}
 
 

@@ -5,6 +5,7 @@ namespace KudrMichal\Serializer\Json;
 use KudrMichal\Serializer\Json\Exception\DeserializeException;
 use KudrMichal\Serializer\Json\Metadata\Property;
 use KudrMichal\Serializer\Json\Metadata\PropertyArray;
+use KudrMichal\Serializer\Utils\NativeTypes;
 
 class Deserializer
 {
@@ -60,8 +61,8 @@ class Deserializer
 
 		$propertyType = \ltrim((string) $property->getType(), '?');
 		switch (TRUE) {
-			case $this->isNative($propertyType):
-				$property->setValue($object, $this->castValue($propertyType, $json->$name));
+			case NativeTypes::isNative($propertyType):
+				$property->setValue($object, NativeTypes::cast($propertyType, $json->$name));
 				break;
 			case \class_exists($propertyType):
 				$newObject = (new \ReflectionClass($propertyType))->newInstanceWithoutConstructor();
@@ -101,43 +102,9 @@ class Deserializer
 				}, $values);
 				break;
 			default:
-				$values = \array_map(fn($value) => $this->castValue($attribute->getType(), $value), $values);
+				$values = \array_map(fn($value) => NativeTypes::cast($attribute->getType(), $value), $values);
 		}
 
 		$property->setValue($object, $values);
-	}
-
-
-	private function isNative(string $type): bool
-	{
-		$type = \ltrim($type, '?');
-
-		return \in_array(
-			$type,
-			[
-				'bool',
-				'int',
-				'float',
-				'string',
-				'',
-				\DateTimeInterface::class,
-				\DateTimeImmutable::class,
-				\DateTime::class,
-			]
-		);
-	}
-
-
-	private function castValue(?string $type, string|bool|int|float $value): float|bool|int|string|\DateTimeImmutable|\DateTime
-	{
-		return match ($type) {
-			NULL => $value,
-			\DateTimeInterface::class | \DateTimeImmutable::class => new \DateTimeImmutable($value),
-			\DateTime::class => new \DateTime($value),
-			'bool' => \boolval($value),
-			'float' => \floatval($value),
-			'string' | '' => \strval($value),
-			'int' => \intval($value),
-		};
 	}
 }

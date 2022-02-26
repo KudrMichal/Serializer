@@ -4,6 +4,7 @@ namespace KudrMichal\Serializer\Json;
 
 use KudrMichal\Serializer\Json\Metadata\Property;
 use KudrMichal\Serializer\Json\Metadata\PropertyArray;
+use KudrMichal\Serializer\Utils\NativeTypes;
 
 class Serializer
 {
@@ -43,7 +44,7 @@ class Serializer
 
 		$propertyType = \ltrim((string) $property->getType(), '?');
 		switch (TRUE) {
-			case $this->isNative($propertyType):
+			case NativeTypes::isNative($propertyType):
 				$jsonArray[$name] = $property->getValue($object);
 				break;
 			case \class_exists($propertyType):
@@ -75,38 +76,5 @@ class Serializer
 					break;
 			}
 		}
-	}
-
-
-	private function isNative(string $type): bool
-	{
-		$type = \ltrim($type, '?');
-
-		return \in_array(
-			$type,
-			[
-				'bool',
-				'int',
-				'float',
-				'string',
-				'',
-				\DateTimeInterface::class,
-				\DateTimeImmutable::class,
-				\DateTime::class,
-			]
-		);
-	}
-
-	private function castValue(?string $type, string|bool|int|float $value): float|bool|int|string|\DateTimeImmutable|\DateTime
-	{
-		return match ($type) {
-			NULL => $value,
-			\DateTimeInterface::class | \DateTimeImmutable::class => new \DateTimeImmutable($value),
-			\DateTime::class => new \DateTime($value),
-			'bool' => \boolval($value),
-			'float' => \floatval($value),
-			'string' | '' => \strval($value),
-			'int' => \intval($value),
-		};
 	}
 }
