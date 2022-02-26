@@ -1,2 +1,4 @@
 .idea
 vendor
+docker-compose.override.yml
+.phpunit.result.cache
