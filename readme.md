@@ -21,8 +21,7 @@ $ composer require kudrmichal/serializer
 Usage
 ------------
 
-
-JSON string to PHP object serializing
+Let's create two test classes
 
 ```
 class Test
@@ -127,6 +126,12 @@ class TestObject
 		return $this->testObjectArray;
 	}
 }
+
+```
+
+JSON string serializing to PHP object
+
+```
 
 $json = <<<JSON
 {
