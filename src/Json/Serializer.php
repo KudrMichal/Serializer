@@ -12,7 +12,10 @@ class Serializer
 	{
 		$jsonArray = [];
 
-		$this->serializeObject($source, $jsonArray);
+		\is_object($source)
+			? $this->serializeObject($source, $jsonArray)
+			: $this->serializeArray($source, $jsonArray)
+		;
 
 		return \json_encode($jsonArray, $jsonFlags);
 	}
@@ -33,6 +36,26 @@ class Serializer
 					PropertyArray::class => $this->serializePropertyArray($attribute->newInstance(), $property->getValue($object), $jsonArray, $property),
 					default => function() {},
 				};
+			}
+		}
+	}
+
+
+	public function serializeArray(array $source, array &$jsonArray): void
+	{
+		foreach ($source as $value) {
+			switch (TRUE) {
+				case \is_scalar($value):
+					$jsonArray[] = $value;
+					break;
+				case $value instanceof \DateTimeInterface:
+					$jsonArray[] = $value->format(\DateTime::W3C);
+					break;
+				case \is_object($value):
+					$newJsonArray = [];
+					$this->serializeObject($value, $newJsonArray);
+					$jsonArray[] = $newJsonArray;
+					break;
 			}
 		}
 	}
@@ -61,20 +84,7 @@ class Serializer
 		$name = $attribute->getName() ?? $property->getName();
 
 		$jsonArray[$name] = [];
-		foreach ($items as $value) {
-			switch (TRUE) {
-				case \is_scalar($value):
-					$jsonArray[$name][] = $value;
-					break;
-				case $value instanceof \DateTimeInterface:
-					$jsonArray[$name][] = $value->format($attribute->getDateFormat());
-					break;
-				case \is_object($value):
-					$newJsonArray = [];
-					$this->serializeObject($value, $newJsonArray);
-					$jsonArray[$name][] = $newJsonArray;
-					break;
-			}
-		}
+
+		$this->serializeArray($items, $jsonArray[$name]);
 	}
 }
