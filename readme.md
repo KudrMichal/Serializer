@@ -26,105 +26,122 @@ Let's create two test classes
 ```
 class Test
 {
-	#[JSON\Property(name:"testInt")]
-	private int $testInteger;
+    #[JSON\Property(name:"testInt")]
+    private int $testInteger;
+    
+    #[JSON\Property]
+    private string $testString;
+    
+    #[JSON\Property]
+    private bool $testBoolean;
+    
+    #[JSON\PropertyArray]
+    private array $testArray;
+    
+    #[JSON\Property]
+    private TestObject $testObject;
+    
+    #[JSON\PropertyArray(type:TestObject::class)]
+    private array $testObjectsArray;
 
-	#[JSON\Property]
-	private string $testString;
+    public function __construct(
+        int $testInteger,
+        string $testString,
+        bool $testBoolean,
+        array $testArray,		
+        TestObject $testObject,
+        array $testObjectsArray,
+    )
+    {
+        $this->testInteger = $testInteger;
+        $this->testString = $testString;
+        $this->testBoolean = $testBoolean;
+        $this->testArray = $testArray;
+        $this->testObjectsArray = $testObjectsArray;
+        $this->testObject = $testObject;
+    }
 
-	#[JSON\Property]
-	private bool $testBoolean;
-
-	#[JSON\PropertyArray]
-	private array $testArray;
-
-	#[JSON\Property]
-	private TestObject $testObject;
-	
-	#[JSON\PropertyArray(type:TestObject::class)]
-	private array $testObjectsArray;
-
-	public function getTestInteger(): int
-	{
-		return $this->testInteger;
-	}
-
-	public function getTestString(): string
-	{
-		return $this->testString;
-	}
-
-	public function isTestBoolean(): bool
-	{
-		return $this->testBoolean;
-	}
-
-	public function getTestArray(): array
-	{
-		return $this->testArray;
-	}
-
-	public function getTestObject(): TestObject
-	{
-		return $this->testObject;
-	}
-	
-	/**
-	 * @return TestObject[]
-	 */
-	public function getTestObjectsArray(): array
-	{
-		return $this->testObjectsArray;
-	}
+    public function getTestInteger(): int
+    {
+    	return $this->testInteger;
+    }
+    
+    public function getTestString(): string
+    {
+    	return $this->testString;
+    }
+    
+    public function isTestBoolean(): bool
+    {
+    	return $this->testBoolean;
+    }
+    
+    public function getTestArray(): array
+    {
+    	return $this->testArray;
+    }
+    
+    public function getTestObject(): TestObject
+    {
+    	return $this->testObject;
+    }
+    
+    /**
+     * @return TestObject[]
+     */
+    public function getTestObjectsArray(): array
+    {
+    	return $this->testObjectsArray;
+    }
 }
 
 
 class TestObject
 {
-	#[JSON\Property]
-	private int $testObjectInt;
-
-	#[JSON\Property]
-	private string $testObjectString;
-
-	#[JSON\Property]
-	private bool $testObjectBoolean;
-
-	#[JSON\PropertyArray]
-	private array $testObjectArray;
-
-
-	public function __construct(int $testObjectInt, string $testObjectString, bool $testObjectBoolean, array $testObjectArray)
-	{
-		$this->testObjectInt = $testObjectInt;
-		$this->testObjectString = $testObjectString;
-		$this->testObjectBoolean = $testObjectBoolean;
-		$this->testObjectArray = $testObjectArray;
-	}
-
-
-	public function getTestObjectInt(): int
-	{
-		return $this->testObjectInt;
-	}
-
-	public function getTestObjectString(): string
-	{
-		return $this->testObjectString;
-	}
-
-	public function isTestObjectBoolean(): bool
-	{
-		return $this->testObjectBoolean;
-	}
-
-	/**
-	 * @return int[]
-	 */
-	public function getTestObjectArray(): array
-	{
-		return $this->testObjectArray;
-	}
+    #[JSON\Property]
+    private int $testObjectInt;
+    
+    #[JSON\Property]
+    private string $testObjectString;
+    
+    #[JSON\Property]
+    private bool $testObjectBoolean;
+    
+    #[JSON\PropertyArray]
+    private array $testObjectArray;
+    
+    
+    public function __construct(int $testObjectInt, string $testObjectString, bool $testObjectBoolean, array $testObjectArray)
+    {
+    	$this->testObjectInt = $testObjectInt;
+    	$this->testObjectString = $testObjectString;
+    	$this->testObjectBoolean = $testObjectBoolean;
+    	$this->testObjectArray = $testObjectArray;
+    }
+    
+    
+    public function getTestObjectInt(): int
+    {
+    	return $this->testObjectInt;
+    }
+    
+    public function getTestObjectString(): string
+    {
+    	return $this->testObjectString;
+    }
+    
+    public function isTestObjectBoolean(): bool
+    {
+    	return $this->testObjectBoolean;
+    }
+    
+    /**
+     * @return int[]
+     */
+    public function getTestObjectArray(): array
+    {
+    	return $this->testObjectArray;
+    }
 }
 
 ```
