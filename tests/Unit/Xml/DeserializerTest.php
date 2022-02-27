@@ -3,6 +3,7 @@
 namespace KudrMichal\Serializer\Tests\Unit\Xml;
 
 use KudrMichal\Serializer\Unit\Xml\Classes\TestObject;
+use KudrMichal\Serializer\Xml\Deserializer;
 
 class DeserializerTest extends \PHPUnit\Framework\TestCase
 {
@@ -11,9 +12,8 @@ class DeserializerTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testDeserialize(\DOMDocument $doc): void
 	{
-		$deserializer = new \KudrMichal\Serializer\Xml\Deserializer();
 		/** @var \KudrMichal\Serializer\Tests\Unit\Xml\Classes\Test $test */
-		$test = (new $deserializer)->deserialize($doc, \KudrMichal\Serializer\Tests\Unit\Xml\Classes\Test::class);
+		$test = (new Deserializer())->deserialize($doc, \KudrMichal\Serializer\Tests\Unit\Xml\Classes\Test::class);
 
 		$this->assertSame(321, $test->getTestInt());
 		$this->assertSame(123, $test->getTestAttributeInteger());

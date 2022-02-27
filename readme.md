@@ -18,7 +18,7 @@ To install the latest version of `kudrmichal/serializer` use [Composer](https://
 $ composer require kudrmichal/serializer
 ```
 
-Usage
+JSON Usage
 ------------
 
 Let's create two test classes
@@ -61,38 +61,7 @@ class Test
         $this->testObject = $testObject;
     }
 
-    public function getTestInteger(): int
-    {
-    	return $this->testInteger;
-    }
-    
-    public function getTestString(): string
-    {
-    	return $this->testString;
-    }
-    
-    public function isTestBoolean(): bool
-    {
-    	return $this->testBoolean;
-    }
-    
-    public function getTestArray(): array
-    {
-    	return $this->testArray;
-    }
-    
-    public function getTestObject(): TestObject
-    {
-    	return $this->testObject;
-    }
-    
-    /**
-     * @return TestObject[]
-     */
-    public function getTestObjectsArray(): array
-    {
-    	return $this->testObjectsArray;
-    }
+    //getters, setters, etc.
 }
 
 
@@ -119,29 +88,7 @@ class TestObject
     	$this->testObjectArray = $testObjectArray;
     }
     
-    
-    public function getTestObjectInt(): int
-    {
-    	return $this->testObjectInt;
-    }
-    
-    public function getTestObjectString(): string
-    {
-    	return $this->testObjectString;
-    }
-    
-    public function isTestObjectBoolean(): bool
-    {
-    	return $this->testObjectBoolean;
-    }
-    
-    /**
-     * @return int[]
-     */
-    public function getTestObjectArray(): array
-    {
-    	return $this->testObjectArray;
-    }
+    //getters, setters, etc.
 }
 
 ```
@@ -203,4 +150,157 @@ $object = new Test(
 
 $serializer = new \KudrMichal\Serializer\Json\Serializer();
 $json = $serializer->serialize($object);
+```
+
+XML Usage
+------------
+
+Let's create another two test classes
+
+```
+use KudrMichal\Serializer\Unit\Xml\Classes\TestObject;
+use KudrMichal\Serializer\Xml\Metadata as XML;
+
+#[XML\Document(name:"test")]
+class Test
+{
+#[XML\Element(name:"testInteger")]
+private int $testInt;
+
+    #[XML\Attribute(name:"testAttributeInt")]
+    private int $testAttributeInteger;
+    
+    #[XML\Element]
+    private string $testString;
+    
+    #[XML\Element]
+    private bool $testBoolean;
+    
+    #[XML\Element(dateFormat: "Y-m-d")]
+    private \DateTimeImmutable $testDate;
+    
+    #[XML\Elements(name: "testArrayItem", type: "int")]
+    private array $testArray;
+    
+    #[XML\ElementArray(type:"int", itemName: "testNestedArrayItem")]
+    private array $testNestedArray;
+    
+    #[XML\Element]
+    private TestObject $testObject;
+    
+    #[XML\ElementArray(type: TestObject::class, itemName: "testObject")]
+    private array $testObjectNestedArray;
+
+
+    public function __construct(
+        int $testInt,
+        int $testAttributeInteger,
+        string $testString,
+        bool $testBoolean,
+        \DateTimeImmutable $testDate,
+        array $testArray,
+        array $testNestedArray,
+        TestObject $testObject,
+        array $testObjectNestedArray
+    )
+    {
+        $this->testInt = $testInt;
+        $this->testAttributeInteger = $testAttributeInteger;
+        $this->testString = $testString;
+        $this->testBoolean = $testBoolean;
+        $this->testDate = $testDate;
+        $this->testArray = $testArray;
+        $this->testNestedArray = $testNestedArray;
+        $this->testObject = $testObject;
+        $this->testObjectNestedArray = $testObjectNestedArray;
+    }
+    
+    //getters, setters, etc.
+}
+
+use KudrMichal\Serializer\Xml\Metadata as XML;
+
+class TestObject
+{
+    #[XML\Element(name:"testInteger")]
+    private int $testObjectInt;
+    
+    #[XML\Attribute(name:"testAttributeInt", ignoreNull: true)]
+    private ?int $testObjectAttributeInt;
+    
+    #[XML\Element(ignoreNull: true)]
+    private ?string $testObjectString;
+    
+    public function __construct(int $testObjectInt, ?int $testObjectAttributeInt = NULL, ?string $testObjectString = NULL)
+    {
+        $this->testObjectInt = $testObjectInt;
+        $this->testObjectAttributeInt = $testObjectAttributeInt;
+        $this->testObjectString = $testObjectString;
+    }
+
+    //getters, setters, etc.
+}
+```
+
+PHP object serializing to \DOMDocument
+
+
+```
+$test = new Test(
+    321,
+    123,
+    '321',
+    true,
+    new \DateTimeImmutable('2022-02-22'),
+    [1,2,3],
+    [3,2,1],
+    new \KudrMichal\Serializer\Unit\Xml\Classes\TestObject(9, 10, 'test'),
+    [
+        new \KudrMichal\Serializer\Unit\Xml\Classes\TestObject(5),
+        new \KudrMichal\Serializer\Unit\Xml\Classes\TestObject(6, testObjectString: 'true'),
+    ]
+);
+
+$serializer = new \KudrMichal\Serializer\Xml\Serializer();
+$doc = $serializer->serialize($test);
+```
+
+XML string serializing to PHP object
+
+```
+$xml = <<<XML
+<test testAttributeInt="123">
+    <testInteger>321</testInteger>
+    <testString>321</testString>
+    <testBoolean>1</testBoolean>
+    <testDate>2022-02-22</testDate>
+    <testArrayItem>1</testArrayItem>
+    <testArrayItem>2</testArrayItem>
+    <testArrayItem>3</testArrayItem>
+    <testNestedArray>
+        <testNestedArrayItem>3</testNestedArrayItem>
+        <testNestedArrayItem>2</testNestedArrayItem>
+        <testNestedArrayItem>1</testNestedArrayItem>
+    </testNestedArray>
+    <testObject testAttributeInt="10">
+        <testInteger>9</testInteger>
+        <testObjectString>test</testObjectString>
+    </testObject>
+    <testObjectNestedArray>
+        <testObject>
+            <testInteger>5</testInteger>
+        </testObject>
+        <testObject>
+            <testInteger>6</testInteger>
+            <testObjectString>true</testObjectString>
+        </testObject>
+    </testObjectNestedArray>
+</test>
+XML;
+
+$doc = new \DOMDocument();
+$doc->loadXML($xml);
+
+$deserializer = new \KudrMichal\Serializer\Xml\Deserializer();
+$test = $deserializer->deserialize($doc, \KudrMichal\Serializer\Tests\Unit\Xml\Classes\Test::class);
 ```
