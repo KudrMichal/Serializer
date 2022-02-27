@@ -1,6 +1,6 @@
 {
 	"name": "kudrmichal/serializer",
-	"description": "description",
+	"description": "Simple XML/JSON object mapper for PHP 8.0+",
 	"minimum-stability": "stable",
 	"license": "proprietary",
 	"authors": [
