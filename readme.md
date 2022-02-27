@@ -164,8 +164,8 @@ use KudrMichal\Serializer\Xml\Metadata as XML;
 #[XML\Document(name:"test")]
 class Test
 {
-#[XML\Element(name:"testInteger")]
-private int $testInt;
+    #[XML\Element(name:"testInteger")]
+    private int $testInt;
 
     #[XML\Attribute(name:"testAttributeInt")]
     private int $testAttributeInteger;
