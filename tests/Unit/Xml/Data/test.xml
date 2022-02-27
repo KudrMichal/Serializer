@@ -1,0 +1,27 @@
+<test testAttributeInt="123">
+    <testInteger>321</testInteger>
+    <testString>321</testString>
+    <testBoolean>1</testBoolean>
+    <testDate>2022-02-22</testDate>
+    <testArrayItem>1</testArrayItem>
+    <testArrayItem>2</testArrayItem>
+    <testArrayItem>3</testArrayItem>
+    <testNestedArray>
+        <testNestedArrayItem>3</testNestedArrayItem>
+        <testNestedArrayItem>2</testNestedArrayItem>
+        <testNestedArrayItem>1</testNestedArrayItem>
+    </testNestedArray>
+    <testObject testAttributeInt="10">
+        <testInteger>9</testInteger>
+        <testObjectString>test</testObjectString>
+    </testObject>
+    <testObjectNestedArray>
+        <testObject>
+            <testInteger>5</testInteger>
+        </testObject>
+        <testObject>
+            <testInteger>6</testInteger>
+            <testObjectString>true</testObjectString>
+        </testObject>
+    </testObjectNestedArray>
+</test>

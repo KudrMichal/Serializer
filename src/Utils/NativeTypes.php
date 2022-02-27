@@ -35,7 +35,7 @@ class NativeTypes
 	public static function cast(?string $type, string|bool|int|float $value): float|bool|int|string|\DateTimeImmutable|\DateTime
 	{
 		return match ($type) {
-			\DateTimeInterface::class | \DateTimeImmutable::class => new \DateTimeImmutable($value),
+			\DateTimeInterface::class, \DateTimeImmutable::class => new \DateTimeImmutable($value),
 			\DateTime::class => new \DateTime($value),
 			'bool' => \boolval($value),
 			'float' => \floatval($value),
