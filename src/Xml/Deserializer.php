@@ -60,6 +60,7 @@ class Deserializer
 		$elements = $this->getElementsByTagName($parentElement, $annotation->getName() ?? $property->getName());
 
 		if ( ! count($elements)) {
+			$property->setValue($object, NULL);
 			return;
 		}
 
@@ -88,6 +89,11 @@ class Deserializer
 	private function deserializeAttribute(Attribute $annotation, \DOMElement $parentElement, object $object, \ReflectionProperty $property): void
 	{
 		$attribute = $parentElement->getAttribute($annotation->getName() ?? $property->getName());
+		if ( ! $attribute) {
+			$property->setValue($object, NULL);
+			return;
+		}
+
 		$type = (string) $property->getType();
 
 		$property->setValue($object, NativeTypes::cast($type, $attribute));

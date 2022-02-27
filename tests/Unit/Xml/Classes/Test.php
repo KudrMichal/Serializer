@@ -2,64 +2,109 @@
 
 namespace KudrMichal\Serializer\Tests\Unit\Xml\Classes;
 
+use KudrMichal\Serializer\Unit\Xml\Classes\TestObject;
 use KudrMichal\Serializer\Xml\Metadata as XML;
 
 #[XML\Document(name:"test")]
 class Test
 {
-	#[XML\Element(name:"name")]
-	private string $name = "jatrovka";
+	#[XML\Element(name:"testInteger")]
+	private int $testInt;
 
-	#[XML\Attribute(name:"age")]
-	private int $age = 20;
-
-	#[XML\ElementArray(name:"nicknames", itemName:"nickname", type:"string")]
-	private array $nicknames = ['jouda', 'lulin'];
+	#[XML\Attribute(name:"testAttributeInt")]
+	private int $testAttributeInteger;
 
 	#[XML\Element]
-	private Nicknames $nestedNicknames;
+	private string $testString;
 
 	#[XML\Element]
-	private TestChild $testChild;
+	private bool $testBoolean;
 
-	#[XML\Element(dateFormat:"Y-m-d")]
-	public ?\DateTime $birthday = NULL;
+	#[XML\Element(dateFormat: "Y-m-d")]
+	private \DateTimeImmutable $testDate;
+
+	#[XML\Elements(name: "testArrayItem", type: "int")]
+	private array $testArray;
+
+	#[XML\ElementArray(type:"int", itemName: "testNestedArrayItem")]
+	private array $testNestedArray;
+
+	#[XML\Element]
+	private TestObject $testObject;
+
+	#[XML\ElementArray(type: TestObject::class, itemName: "testObject")]
+	private array $testObjectNestedArray;
 
 
-	public function __construct()
+	public function __construct(
+		int $testInt,
+		int $testAttributeInteger,
+		string $testString,
+		bool $testBoolean,
+		\DateTimeImmutable $testDate,
+		array $testArray,
+		array $testNestedArray,
+		TestObject $testObject,
+		array $testObjectNestedArray
+	)
 	{
-		$this->testChild = new TestChild();
-		$this->birthday = new \DateTime('2020-01-01');
-		$this->nestedNicknames = new Nicknames();
+		$this->testInt = $testInt;
+		$this->testAttributeInteger = $testAttributeInteger;
+		$this->testString = $testString;
+		$this->testBoolean = $testBoolean;
+		$this->testDate = $testDate;
+		$this->testArray = $testArray;
+		$this->testNestedArray = $testNestedArray;
+		$this->testObject = $testObject;
+		$this->testObjectNestedArray = $testObjectNestedArray;
 	}
 
 
-	public function getName(): string
+	public function getTestInt(): int
 	{
-		return $this->name;
+		return $this->testInt;
 	}
 
-
-	public function getAge(): int
+	public function getTestAttributeInteger(): int
 	{
-		return $this->age;
+		return $this->testAttributeInteger;
 	}
 
-
-	public function getNicknames(): array
+	public function getTestString(): string
 	{
-		return $this->nicknames;
+		return $this->testString;
 	}
 
-
-	public function getTestChild(): TestChild
+	public function getTestBoolean(): bool
 	{
-		return $this->testChild;
+		return $this->testBoolean;
 	}
 
-
-	public function getBirthday(): ?\DateTime
+	public function getTestDate(): \DateTimeImmutable
 	{
-		return $this->birthday;
+		return $this->testDate;
+	}
+
+	public function getTestArray(): array
+	{
+		return $this->testArray;
+	}
+
+	public function getTestNestedArray(): array
+	{
+		return $this->testNestedArray;
+	}
+
+	public function getTestObject(): TestObject
+	{
+		return $this->testObject;
+	}
+
+	/**
+	 * @return TestObject[]
+	 */
+	public function getTestObjectNestedArray(): array
+	{
+		return $this->testObjectNestedArray;
 	}
 }
