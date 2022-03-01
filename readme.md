@@ -24,6 +24,8 @@ JSON Usage
 Let's create two test classes
 
 ```
+use KudrMichal\Serializer\Json\Metadata as JSON;
+
 class Test
 {
     #[JSON\Property(name:"testInt")]
