@@ -76,13 +76,16 @@ class Serializer
 		$element = $doc->createElement($annotation->getName() ?? $property->getName());
 		$value = $property->getValue($object);
 
-		if ($value === NULL && $annotation->isIgnoringNull()) {
-			return;
-		}
-
 		switch (TRUE) {
+			case $value === NULL && $annotation->isIgnoringNull():
+				return;
+			case $annotation->isCData() && ! is_scalar($value):
+				throw SerializeException::cDataOnlyScalar($property->getName());
 			case \is_array($value):
 				throw SerializeException::elementContainsArray($property->getName());
+			case \is_scalar($value) && $annotation->isCData():
+				$element->appendChild($doc->createCDATASection((string) $value));
+				break;
 			case \is_scalar($value):
 				$element->nodeValue = $value;
 				break;
