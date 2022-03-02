@@ -20,4 +20,10 @@ class SerializeException extends \Exception
 	{
 		return new self("Root object not set");
 	}
+
+
+	public static function cDataOnlyScalar(string $property): self
+	{
+		return new self("Element property $property accepts only scalar values");
+	}
 }

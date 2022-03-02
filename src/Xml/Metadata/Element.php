@@ -8,12 +8,14 @@ class Element
 	private ?string $name;
 	private bool $ignoreNull;
 	private string $dateFormat;
+	private bool $cdata;
 
-	public function __construct(?string $name = NULL, bool $ignoreNull = FALSE, string $dateFormat = 'd.m.Y h:i:s')
+	public function __construct(?string $name = NULL, bool $ignoreNull = FALSE, string $dateFormat = 'd.m.Y h:i:s', bool $cdata = FALSE)
 	{
 		$this->name = $name;
 		$this->ignoreNull = $ignoreNull;
 		$this->dateFormat = $dateFormat;
+		$this->cdata = $cdata;
 	}
 
 	public function getName(): ?string
@@ -29,5 +31,10 @@ class Element
 	public function getDateFormat(): string
 	{
 		return $this->dateFormat;
+	}
+
+	public function isCData(): bool
+	{
+		return $this->cdata;
 	}
 }
