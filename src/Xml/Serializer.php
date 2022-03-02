@@ -19,7 +19,7 @@ class Serializer
 	 */
 	public function serialize($object): \DOMDocument
 	{
-		$doc = new \DOMDocument();
+
 
 		$reflection = new \ReflectionClass($object);
 		/** @var Document $document */
@@ -28,6 +28,8 @@ class Serializer
 		if ( ! $document) {
 			throw SerializeException::documentMissingException();
 		}
+
+		$doc = new \DOMDocument($document->getVersion(), $document->getEncoding());
 
 		$doc->appendChild($root = $doc->createElement($document->getName()));
 
