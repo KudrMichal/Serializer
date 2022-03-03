@@ -7,10 +7,10 @@ class Document
 {
 	private ?string $name = NULL;
 	private string $version;
-	private ?string $encoding;
+	private string $encoding;
 
 
-	public function __construct(?string $name = NULL, string $version = '1.0', ?string $encoding = 'utf-8')
+	public function __construct(?string $name = NULL, string $version = '1.0', string $encoding = '')
 	{
 		$this->name = $name;
 		$this->version = $version;
@@ -30,7 +30,7 @@ class Document
 	}
 
 
-	public function getEncoding(): ?string
+	public function getEncoding(): string
 	{
 		return $this->encoding;
 	}
