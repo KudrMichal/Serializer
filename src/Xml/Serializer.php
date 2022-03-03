@@ -30,6 +30,9 @@ class Serializer
 		}
 
 		$doc = new \DOMDocument($document->getVersion(), $document->getEncoding());
+		if ( ! is_null($document->getStandalone())) {
+			$doc->xmlStandalone = $document->getStandalone();
+		}
 
 		$doc->appendChild($root = $doc->createElement($document->getName()));
 
