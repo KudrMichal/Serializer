@@ -12,8 +12,6 @@ class SerializerTest extends \PHPUnit\Framework\TestCase
 	public function testSerialize(Test $test): void
 	{
 		$document = (new \KudrMichal\Serializer\Xml\Serializer())->serialize($test);
-		$document->formatOutput = FALSE;
-		$document->preserveWhiteSpace = FALSE;
 		$expectedDoc = new \DOMDocument('1.0');
 		$expectedDoc->formatOutput = FALSE;
 		$expectedDoc->preserveWhiteSpace = FALSE;

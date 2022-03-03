@@ -5,7 +5,7 @@ namespace KudrMichal\Serializer\Tests\Unit\Xml\Classes;
 use KudrMichal\Serializer\Unit\Xml\Classes\TestObject;
 use KudrMichal\Serializer\Xml\Metadata as XML;
 
-#[XML\Document(name:"test")]
+#[XML\Document(name:"test", standalone: true, encoding: XML\Document::ENCODING_ISO_8859_1)]
 class Test
 {
 	#[XML\Element(name:"testInteger")]
