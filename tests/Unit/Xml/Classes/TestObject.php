@@ -13,7 +13,7 @@ class TestObject
 	private ?int $testObjectAttributeInt;
 
 	#[XML\Element(ignoreNull: true)]
-	private ?string $testObjectString;
+	private ?string $testObjectString = 'missing';
 
 
 	public function __construct(int $testObjectInt, ?int $testObjectAttributeInt = NULL, ?string $testObjectString = NULL)

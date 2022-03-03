@@ -60,7 +60,9 @@ class Deserializer
 		$elements = $this->getElementsByTagName($parentElement, $annotation->getName() ?? $property->getName());
 
 		if ( ! count($elements)) {
-			$property->setValue($object, NULL);
+			if ( ! $annotation->isIgnoringNull()) {
+				$property->setValue($object, NULL);
+			}
 			return;
 		}
 
