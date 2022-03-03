@@ -28,7 +28,7 @@ class DeserializerTest extends \PHPUnit\Framework\TestCase
 		$testObjects = $test->getTestObjectNestedArray();
 		$this->assertSame(5, $testObjects[0]->getTestObjectInt());
 		$this->assertNull($testObjects[0]->getTestObjectAttributeInt());
-		$this->assertNull($testObjects[0]->getTestObjectString());
+		$this->assertSame('missing', $testObjects[0]->getTestObjectString());
 		$this->assertSame(6, $testObjects[1]->getTestObjectInt());
 		$this->assertNull($testObjects[1]->getTestObjectAttributeInt());
 		$this->assertSame('true', $testObjects[1]->getTestObjectString());

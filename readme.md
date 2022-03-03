@@ -1,4 +1,4 @@
-KudrMichal XML/JSON object mapper
+Simple XML/JSON object mapper
 ===========
 
 kudrmichal/serializer is a PHP object xml/json mapper for PHP 8.0+
