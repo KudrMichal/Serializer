@@ -4,6 +4,7 @@ namespace KudrMichal\Serializer\Unit\Json;
 
 use KudrMichal\Serializer\Json\Metadata\Property;
 use KudrMichal\Serializer\Unit\Json\Classes\Test;
+use KudrMichal\Serializer\Unit\Json\Classes\TestName;
 use KudrMichal\Serializer\Unit\Json\Classes\TestObject;
 
 class SerializerTest extends \PHPUnit\Framework\TestCase
@@ -28,6 +29,7 @@ class SerializerTest extends \PHPUnit\Framework\TestCase
 		$object = new Test(
 			10,
 			'string test',
+			new TestName('Michal', 'Kudr'),
 			TRUE,
 			[1,2,3,4],
 			[4,3,2,1],

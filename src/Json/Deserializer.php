@@ -61,6 +61,9 @@ class Deserializer
 
 		$propertyType = \ltrim((string) $property->getType(), '?');
 		switch (TRUE) {
+			case $attribute->getCallable():
+				$property->setValue($object, \call_user_func($attribute->getCallable(), $json->$name));
+				break;
 			case NativeTypes::isNative($propertyType):
 				$property->setValue($object, NativeTypes::cast($propertyType, $json->$name));
 				break;
@@ -93,6 +96,9 @@ class Deserializer
 		$values = $json->$name;
 		switch (TRUE) {
 			case \is_null($attribute->getType()):
+				break;
+			case $attribute->getCallable():
+				$values = \array_map(fn($value) => \call_user_func($attribute->getCallable(), $value), $values);
 				break;
 			case \class_exists($attribute->getType()):
 				$values = \array_map(function($value) use ($attribute) {

@@ -1,6 +1,7 @@
 {
   "testInt": 10,
   "testString": "string test",
+  "testCallable": "Michal Kudr",
   "testBoolean": true,
   "testArray": [1,2,3,4],
   "testReversedArray": [4,3,2,1],
