@@ -1,5 +1,5 @@
-<test testAttributeInt="123">
-    <testInteger>321</testInteger>
+<test testAttributeInt="123" xmlns:typ="http://test.cz">
+    <typ:testInteger>321</typ:testInteger>
     <testString>321</testString>
     <testStringArrayAdapter>a:b:c</testStringArrayAdapter>
     <testBoolean>1</testBoolean>

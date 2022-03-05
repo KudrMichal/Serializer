@@ -16,11 +16,10 @@ class Serializer
 	 * @param object $object
 	 *
 	 * @throws Exception\SerializeException
+	 * @throws \DOMException
 	 */
 	public function serialize($object): \DOMDocument
 	{
-
-
 		$reflection = new \ReflectionClass($object);
 		/** @var Document $document */
 		$document = $reflection->getAttributes(Document::class)[0]->newInstance();
@@ -34,7 +33,16 @@ class Serializer
 			$doc->xmlStandalone = $document->getStandalone();
 		}
 
-		$doc->appendChild($root = $doc->createElement($document->getName()));
+		$rootName = $document->getName();
+		if ($document->getNamespace()) {
+			$rootName = $document->getNamespace() . ':' . $rootName;
+		}
+
+		$doc->appendChild($root = $doc->createElement($rootName));
+
+		foreach ($document->getNamespaces() as $name => $namespace) {
+			$root->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:' . $name, $namespace);
+		}
 
 		$this->serializeObject($object, $root, $doc);
 
@@ -67,7 +75,6 @@ class Serializer
 					case Elements::class:
 						$this->serializeElements($annotation->newInstance(), $property, $property->getValue($object), $element, $doc);
 						continue 2;
-
 				}
 			}
 		}
@@ -76,7 +83,8 @@ class Serializer
 
 	private function serializeElement(Element $annotation, \ReflectionProperty $property, $object, \DOMElement $parentElement, \DOMDocument $doc): void
 	{
-		$element = $doc->createElement($annotation->getName() ?? $property->getName());
+		$element = $this->createElement($doc, $annotation->getName() ?? $property->getName(), $annotation->getPrefix());
+
 		$value = $property->getValue($object);
 
 		if ($annotation->getCallable()) {
@@ -126,7 +134,8 @@ class Serializer
 
 	private function serializeElementArray(ElementArray $annotation, \ReflectionProperty $property, $object, \DOMElement $parentElement, \DOMDocument $doc): void
 	{
-		$element = $doc->createElement($annotation->getName() ?? $property->getName());
+		$element = $this->createElement($doc, $annotation->getName() ?? $property->getName(), $annotation->getPrefix());
+
 		if ( ! \is_array($values = $property->getValue($object))) {
 			throw SerializeException::elementContainsArray($property->getName());
 		}
@@ -178,5 +187,17 @@ class Serializer
 
 			$parentElement->appendChild($itemElement);
 		}
+	}
+
+
+	private function createElement(\DOMDocument $doc, string $name, string $prefix = NULL): \DOMElement
+	{
+		$nsUri = $doc->lookupNamespaceURI($prefix);
+
+		if ($prefix) {
+			$name = $prefix . ':' . $name;
+		}
+
+		return $doc->createElementNS($nsUri, $name);
 	}
 }

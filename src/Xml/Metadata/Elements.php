@@ -30,15 +30,25 @@ class Elements
 	 */
 	private $callable;
 
+	/**
+	 * @serialize
+	 *
+	 * Namespace prefix
+	 */
+	private ?string $prefix;
+
 
 	public function __construct(
 		?string $name = NULL,
 		?string $type = NULL,
-		?callable $callable = NULL)
+		?callable $callable = NULL,
+		?string $prefix = NULL,
+	)
 	{
 		$this->name = $name;
 		$this->type = $type;
 		$this->callable = $callable;
+		$this->prefix = $prefix;
 	}
 
 	public function getName(): ?string
@@ -54,5 +64,10 @@ class Elements
 	public function getCallable(): ?callable
 	{
 		return $this->callable;
+	}
+
+	public function getPrefix(): ?string
+	{
+		return $this->prefix;
 	}
 }
