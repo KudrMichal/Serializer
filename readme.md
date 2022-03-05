@@ -28,40 +28,20 @@ use KudrMichal\Serializer\Json\Metadata as JSON;
 
 class Test
 {
-    #[JSON\Property(name:"testInt")]
-    private int $testInteger;
-    
-    #[JSON\Property]
-    private string $testString;
-    
-    #[JSON\Property]
-    private bool $testBoolean;
-    
-    #[JSON\PropertyArray]
-    private array $testArray;
-    
-    #[JSON\Property]
-    private TestObject $testObject;
-    
-    #[JSON\PropertyArray(type:TestObject::class)]
-    private array $testObjectsArray;
-
     public function __construct(
-        int $testInteger,
-        string $testString,
-        bool $testBoolean,
-        array $testArray,		
-        TestObject $testObject,
-        array $testObjectsArray,
-    )
-    {
-        $this->testInteger = $testInteger;
-        $this->testString = $testString;
-        $this->testBoolean = $testBoolean;
-        $this->testArray = $testArray;
-        $this->testObjectsArray = $testObjectsArray;
-        $this->testObject = $testObject;
-    }
+        #[JSON\Property(name:"testInt")] 
+        private int $testInteger,
+        #[JSON\Property] 
+        private string $testString,
+        #[JSON\Property]
+        private bool $testBoolean,
+        #[JSON\PropertyArray]
+        private array $testArray,		
+        #[JSON\Property]
+        private TestObject $testObject,
+        #[JSON\PropertyArray(type:TestObject::class)]
+        private array $testObjectsArray,
+    ) {}
 
     //getters, setters, etc.
 }
@@ -69,26 +49,12 @@ class Test
 
 class TestObject
 {
-    #[JSON\Property]
-    private int $testObjectInt;
-    
-    #[JSON\Property]
-    private string $testObjectString;
-    
-    #[JSON\Property]
-    private bool $testObjectBoolean;
-    
-    #[JSON\PropertyArray]
-    private array $testObjectArray;
-    
-    
-    public function __construct(int $testObjectInt, string $testObjectString, bool $testObjectBoolean, array $testObjectArray)
-    {
-    	$this->testObjectInt = $testObjectInt;
-    	$this->testObjectString = $testObjectString;
-    	$this->testObjectBoolean = $testObjectBoolean;
-    	$this->testObjectArray = $testObjectArray;
-    }
+    public function __construct(
+        #[JSON\Property] private int $testObjectInt, 
+        #[JSON\Property] private string $testObjectString, 
+        #[JSON\Property] private bool $testObjectBoolean, 
+        #[JSON\PropertyArray] private array $testObjectArray
+    ) {}
     
     //getters, setters, etc.
 }

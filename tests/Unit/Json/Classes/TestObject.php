@@ -6,26 +6,12 @@ use KudrMichal\Serializer\Json\Metadata as JSON;
 
 class TestObject
 {
-	#[JSON\Property]
-	private int $testObjectInt;
-
-	#[JSON\Property]
-	private string $testObjectString;
-
-	#[JSON\Property]
-	private bool $testObjectBoolean;
-
-	#[JSON\PropertyArray]
-	private array $testObjectArray;
-
-
-	public function __construct(int $testObjectInt, string $testObjectString, bool $testObjectBoolean, array $testObjectArray)
-	{
-		$this->testObjectInt = $testObjectInt;
-		$this->testObjectString = $testObjectString;
-		$this->testObjectBoolean = $testObjectBoolean;
-		$this->testObjectArray = $testObjectArray;
-	}
+	public function __construct(
+		#[JSON\Property] private int $testObjectInt,
+		#[JSON\Property] private string $testObjectString,
+		#[JSON\Property] private bool $testObjectBoolean,
+		#[JSON\PropertyArray] private array $testObjectArray
+	) {}
 
 
 	public function getTestObjectInt(): int
