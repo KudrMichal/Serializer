@@ -5,10 +5,35 @@ namespace KudrMichal\Serializer\Xml\Metadata;
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
 class ElementArray
 {
-	private ?string $name = NULL;
-	private ?string $itemName = NULL;
-	private ?string $type = NULL;
 	/**
+	 * @serialize
+	 * @deserialize
+	 *
+	 * Xml element tag name. If null, php object property name is used
+	 */
+	private ?string $name = NULL;
+
+	/**
+	 * @serialize
+	 * @deserialize
+	 *
+	 * Xml element children tag name.
+	 */
+	private ?string $itemName = NULL;
+
+	/**
+	 * @deserialize
+	 *
+	 * PHP type for xml element children
+	 */
+	private ?string $type = NULL;
+
+	/**
+	 * @serialize
+	 * @deserialize
+	 *
+	 * Callable for custom value conversion
+	 *
 	 * @var callable|null
 	 */
 	private $callable;

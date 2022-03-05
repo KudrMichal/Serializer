@@ -5,13 +5,36 @@ namespace KudrMichal\Serializer\Json\Metadata;
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
 class PropertyArray
 {
-	private ?string $name;
-	private ?string $type;
-	private string $dateFormat;
 	/**
+	 * @serialize
+	 * @deserialize
+	 *
+	 * Json property name. If null, php object property name is used
+	 */
+	private ?string $name;
+
+	/**
+	 * @deserialize
+	 *
+	 * PHP type for json array items
+	 */
+	private ?string $type;
+
+	/**
+	 * @serialize
+	 */
+	private string $dateFormat;
+
+	/**
+	 * @serialize
+	 * @deserialize
+	 *
+	 * Callable for custom value conversion
+	 *
 	 * @var callable|null
 	 */
 	private $callable;
+
 
 	public function __construct(
 		string $name = NULL,

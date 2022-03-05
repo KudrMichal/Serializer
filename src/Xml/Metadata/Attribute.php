@@ -5,13 +5,36 @@ namespace KudrMichal\Serializer\Xml\Metadata;
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
 class Attribute
 {
-	private ?string $name;
-	private bool $ignoreNull;
-	private ?string $dateFormat;
 	/**
+	 * @serialize
+	 * @deserialize
+	 *
+	 * Xml element attribute name. If null, php object property name is used
+	 */
+	private ?string $name;
+
+	/**
+	 * @serialize
+	 *
+	 * If true, xml element attribute is not created, if php object value is null
+	 */
+	private bool $ignoreNull;
+
+	/**
+	 * @serialize
+	 */
+	private ?string $dateFormat;
+
+	/**
+	 * @serialize
+	 * @deserialize
+	 *
+	 * Callable for custom value conversion
+	 *
 	 * @var callable|null
 	 */
 	private $callable;
+
 
 	public function __construct(
 		?string $name = NULL,
