@@ -8,12 +8,22 @@ class Property
 	private ?string $name;
 	private bool $ignoreNull;
 	private string $dateFormat;
+	/**
+	 * @var callable|null
+	 */
+	private $callable;
 
-	public function __construct(?string $name = NULL, bool $ignoreNull = FALSE, string $dateFormat = 'd.m.Y h:i:s')
+	public function __construct(
+		?string $name = NULL,
+		bool $ignoreNull = FALSE,
+		string $dateFormat = 'd.m.Y h:i:s',
+		?callable $callable = NULL,
+	)
 	{
 		$this->name = $name;
 		$this->ignoreNull = $ignoreNull;
 		$this->dateFormat = $dateFormat;
+		$this->callable = $callable;
 	}
 
 	public function getName(): ?string
@@ -29,5 +39,10 @@ class Property
 	public function getDateFormat(): string
 	{
 		return $this->dateFormat;
+	}
+
+	public function getCallable(): ?callable
+	{
+		return $this->callable;
 	}
 }

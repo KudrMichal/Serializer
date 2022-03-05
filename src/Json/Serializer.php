@@ -41,10 +41,13 @@ class Serializer
 	}
 
 
-	public function serializeArray(array $source, array &$jsonArray): void
+	public function serializeArray(array $source, array &$jsonArray, ?callable $callable = NULL): void
 	{
 		foreach ($source as $value) {
 			switch (TRUE) {
+				case \is_callable($callable):
+					\call_user_func($callable, $value);
+					break;
 				case \is_scalar($value):
 					$jsonArray[] = $value;
 					break;
@@ -71,6 +74,9 @@ class Serializer
 
 		$propertyType = \ltrim((string) $property->getType(), '?');
 		switch (TRUE) {
+			case $attribute->getCallable():
+				$jsonArray[$name] = \call_user_func($attribute->getCallable(), $property->getValue($object));
+				break;
 			case NativeTypes::isNative($propertyType):
 				$jsonArray[$name] = $property->getValue($object);
 				break;
@@ -89,6 +95,6 @@ class Serializer
 
 		$jsonArray[$name] = [];
 
-		$this->serializeArray($items, $jsonArray[$name]);
+		$this->serializeArray($items, $jsonArray[$name], $attribute->getCallable());
 	}
 }
