@@ -9,13 +9,25 @@ class Element
 	private bool $ignoreNull;
 	private string $dateFormat;
 	private bool $cdata;
+	/**
+	 * @var callable|null
+	 */
+	private $callable;
 
-	public function __construct(?string $name = NULL, bool $ignoreNull = FALSE, string $dateFormat = 'd.m.Y h:i:s', bool $cdata = FALSE)
+
+	public function __construct(
+		?string $name = NULL,
+		bool $ignoreNull = FALSE,
+		string $dateFormat = 'd.m.Y h:i:s',
+		bool $cdata = FALSE,
+		?callable $callable = NULL
+	)
 	{
 		$this->name = $name;
 		$this->ignoreNull = $ignoreNull;
 		$this->dateFormat = $dateFormat;
 		$this->cdata = $cdata;
+		$this->callable = $callable;
 	}
 
 	public function getName(): ?string
@@ -36,5 +48,10 @@ class Element
 	public function isCData(): bool
 	{
 		return $this->cdata;
+	}
+
+	public function getCallable(): ?callable
+	{
+		return $this->callable;
 	}
 }

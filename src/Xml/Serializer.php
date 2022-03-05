@@ -79,6 +79,10 @@ class Serializer
 		$element = $doc->createElement($annotation->getName() ?? $property->getName());
 		$value = $property->getValue($object);
 
+		if ($annotation->getCallable()) {
+			$value = \call_user_func($annotation->getCallable(), $value);
+		}
+
 		switch (TRUE) {
 			case $value === NULL && $annotation->isIgnoringNull():
 				return;
@@ -108,6 +112,10 @@ class Serializer
 	{
 		$value = $property->getValue($object);
 
+		if ($annotation->getCallable()) {
+			$value = \call_user_func($annotation->getCallable(), $value);
+		}
+
 		if ($value === NULL && $annotation->isIgnoreNull()) {
 			return;
 		}
@@ -124,6 +132,9 @@ class Serializer
 		}
 
 		foreach ($values as $value) {
+			if ($annotation->getCallable()) {
+				$value = \call_user_func($annotation->getCallable(), $value);
+			}
 			$itemElement = $doc->createElement($annotation->getItemName());
 			switch (TRUE) {
 				case \is_array($value):
@@ -150,6 +161,9 @@ class Serializer
 		}
 
 		foreach ($values as $value) {
+			if ($annotation->getCallable()) {
+				$value = \call_user_func($annotation->getCallable(), $value);
+			}
 			$itemElement = $doc->createElement($annotation->getName());
 			switch (TRUE) {
 				case \is_array($value):

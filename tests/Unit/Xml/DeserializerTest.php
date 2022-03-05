@@ -19,6 +19,7 @@ class DeserializerTest extends \PHPUnit\Framework\TestCase
 		$this->assertSame(123, $test->getTestAttributeInteger());
 		$this->assertTrue($test->getTestBoolean());
 		$this->assertSame('321', $test->getTestString());
+		$this->assertSame(['a', 'b', 'c'], $test->getTestStringArrayAdapter());
 		$this->assertSame([1, 2, 3], $test->getTestArray());
 		$this->assertSame([3, 2, 1], $test->getTestNestedArray());
 		$this->assertInstanceOf(TestObject::class, $test->getTestObject());

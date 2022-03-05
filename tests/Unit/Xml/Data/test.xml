@@ -1,6 +1,7 @@
 <test testAttributeInt="123">
     <testInteger>321</testInteger>
     <testString>321</testString>
+    <testStringArrayAdapter>a:b:c</testStringArrayAdapter>
     <testBoolean>1</testBoolean>
     <testDate>2022-02-22</testDate>
     <testArrayItem>1</testArrayItem>
