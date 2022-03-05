@@ -5,11 +5,40 @@ namespace KudrMichal\Serializer\Xml\Metadata;
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
 class Element
 {
-	private ?string $name;
-	private bool $ignoreNull;
-	private string $dateFormat;
-	private bool $cdata;
 	/**
+	 * @serialize
+	 * @deserialize
+	 *
+	 * Xml element tag name. If null, php object property name is used
+	 */
+	private ?string $name;
+
+	/**
+	 * @serialize
+	 *
+	 * If true, xml element is not created, if php object value is null
+	 */
+	private bool $ignoreNull;
+
+	/**
+	 * @serialize
+	 */
+	private string $dateFormat;
+
+	/**
+	 * @serialize
+	 * if true, value is surrounded by CData section
+	 * @deserialize
+	 * If true, CData section is removed from element value
+	 */
+	private bool $cdata;
+
+	/**
+	 * @serialize
+	 * @deserialize
+	 *
+	 * Callable for custom value conversion
+	 *
 	 * @var callable|null
 	 */
 	private $callable;

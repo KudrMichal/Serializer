@@ -5,9 +5,27 @@ namespace KudrMichal\Serializer\Xml\Metadata;
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
 class Elements
 {
-	private ?string $name;
-	private ?string $type;
 	/**
+	 * @serialize
+	 * @deserialize
+	 *
+	 * Xml element tag name. If null, php object property name is used
+	 */
+	private ?string $name;
+
+	/**
+	 * @deserialize
+	 *
+	 * PHP type for xml element children
+	 */
+	private ?string $type;
+
+	/**
+	 * @serialize
+	 * @deserialize
+	 *
+	 * Callable for custom value conversion
+	 *
 	 * @var callable|null
 	 */
 	private $callable;

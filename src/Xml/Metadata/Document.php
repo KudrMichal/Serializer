@@ -23,9 +23,33 @@ class Document
 	public const ENCODING_ISO_2022_JP = 'iso-2022-jp';
 	public const ENCODING_SHIFT_JIS = 'shift_jis';
 
+	/**
+	 * @serialize
+	 * @deserialize
+	 *
+	 * Xml root element tag name. If null, php object property name is used
+	 */
 	private ?string $name;
+
+	/**
+	 * @serialize
+	 *
+	 * Xml declaration version
+	 */
 	private string $version;
+
+	/**
+	 * @serialize
+	 *
+	 * Xml declaration encoding, if '', encoding is omitted
+	 */
 	private string $encoding;
+
+	/**
+	 * @serialize
+	 *
+	 * Xml declaration standalone, if null, standalone is omitted
+	 */
 	private ?bool $standalone;
 
 
