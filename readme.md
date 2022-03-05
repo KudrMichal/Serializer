@@ -132,79 +132,40 @@ use KudrMichal\Serializer\Xml\Metadata as XML;
 #[XML\Document(name:"test")]
 class Test
 {
-    #[XML\Element(name:"testInteger")]
-    private int $testInt;
-
-    #[XML\Attribute(name:"testAttributeInt")]
-    private int $testAttributeInteger;
-    
-    #[XML\Element]
-    private string $testString;
-    
-    #[XML\Element]
-    private bool $testBoolean;
-    
-    #[XML\Element(dateFormat: "Y-m-d")]
-    private \DateTimeImmutable $testDate;
-    
-    #[XML\Elements(name: "testArrayItem", type: "int")]
-    private array $testArray;
-    
-    #[XML\ElementArray(type:"int", itemName: "testNestedArrayItem")]
-    private array $testNestedArray;
-    
-    #[XML\Element]
-    private TestObject $testObject;
-    
-    #[XML\ElementArray(type: TestObject::class, itemName: "testObject")]
-    private array $testObjectNestedArray;
-
-
     public function __construct(
-        int $testInt,
-        int $testAttributeInteger,
-        string $testString,
-        bool $testBoolean,
-        \DateTimeImmutable $testDate,
-        array $testArray,
-        array $testNestedArray,
-        TestObject $testObject,
-        array $testObjectNestedArray
-    )
-    {
-        $this->testInt = $testInt;
-        $this->testAttributeInteger = $testAttributeInteger;
-        $this->testString = $testString;
-        $this->testBoolean = $testBoolean;
-        $this->testDate = $testDate;
-        $this->testArray = $testArray;
-        $this->testNestedArray = $testNestedArray;
-        $this->testObject = $testObject;
-        $this->testObjectNestedArray = $testObjectNestedArray;
-    }
+        #[XML\Element(name:"testInteger")]
+        private int $testInt,
+        #[XML\Attribute(name:"testAttributeInt")]
+        private int $testAttributeInteger,
+        #[XML\Element]
+        private string $testString,
+        #[XML\Element]
+        private bool $testBoolean,
+        #[XML\Element(dateFormat: "Y-m-d")]
+        private \DateTimeImmutable $testDate,
+        #[XML\Elements(name: "testArrayItem", type: "int")]
+        private array $testArray,
+        #[XML\ElementArray(type:"int", itemName: "testNestedArrayItem")]
+        private array $testNestedArray,
+        #[XML\Element]
+        private TestObject $testObject,
+        #[XML\ElementArray(type: TestObject::class, itemName: "testObject")]
+        private array $testObjectNestedArray
+    ) {}
     
     //getters, setters, etc.
 }
 
-use KudrMichal\Serializer\Xml\Metadata as XML;
-
 class TestObject
 {
-    #[XML\Element(name:"testInteger")]
-    private int $testObjectInt;
-    
-    #[XML\Attribute(name:"testAttributeInt", ignoreNull: true)]
-    private ?int $testObjectAttributeInt;
-    
-    #[XML\Element(ignoreNull: true)]
-    private ?string $testObjectString;
-    
-    public function __construct(int $testObjectInt, ?int $testObjectAttributeInt = NULL, ?string $testObjectString = NULL)
-    {
-        $this->testObjectInt = $testObjectInt;
-        $this->testObjectAttributeInt = $testObjectAttributeInt;
-        $this->testObjectString = $testObjectString;
-    }
+    public function __construct(
+        #[XML\Element(name:"testInteger")]
+        private int $testObjectInt, 
+        #[XML\Attribute(name:"testAttributeInt", ignoreNull: true)]
+        private ?int $testObjectAttributeInt = NULL,
+        #[XML\Element(ignoreNull: true)] 
+        private ?string $testObjectString = NULL
+    ) {}
 
     //getters, setters, etc.
 }
