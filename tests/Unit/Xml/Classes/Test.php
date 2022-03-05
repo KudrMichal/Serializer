@@ -6,10 +6,17 @@ use KudrMichal\Serializer\Unit\Xml\Classes\TestArrayStringAdapter;
 use KudrMichal\Serializer\Unit\Xml\Classes\TestObject;
 use KudrMichal\Serializer\Xml\Metadata as XML;
 
-#[XML\Document(name:"test", standalone: true, encoding: XML\Document::ENCODING_ISO_8859_1)]
+#[XML\Document(
+	name:"test",
+	encoding: XML\Document::ENCODING_ISO_8859_1,
+	standalone: true,
+	namespaces: [
+		'typ' => 'http://test.cz',
+	],
+)]
 class Test
 {
-	#[XML\Element(name:"testInteger")]
+	#[XML\Element(name:"testInteger", prefix: 'typ')]
 	private int $testInt;
 
 	#[XML\Attribute(name:"testAttributeInt")]

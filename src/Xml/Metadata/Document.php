@@ -52,18 +52,37 @@ class Document
 	 */
 	private ?bool $standalone;
 
+	/**
+	 * @serialize
+	 *
+	 * Xml root element namespaces
+	 * @var array<string, string>
+	 */
+	private array $namespaces;
+
+	/**
+	 * @serialize
+	 *
+	 * Xml root element namespace name
+	 */
+	private ?string $namespace;
+
 
 	public function __construct(
 		?string $name = NULL,
 		string $version = self::VERSION_1_0,
 		string $encoding = '',
-		?bool $standalone = NULL
+		?bool $standalone = NULL,
+		array $namespaces = [],
+		?string $namespace = NULL
 	)
 	{
 		$this->name = $name;
 		$this->version = $version;
 		$this->encoding = $encoding;
 		$this->standalone = $standalone;
+		$this->namespaces = $namespaces;
+		$this->namespace = $namespace;
 	}
 
 
@@ -87,5 +106,15 @@ class Document
 	public function getStandalone(): ?bool
 	{
 		return $this->standalone;
+	}
+
+	public function getNamespaces(): array
+	{
+		return $this->namespaces;
+	}
+
+	public function getNamespace(): ?string
+	{
+		return $this->namespace;
 	}
 }

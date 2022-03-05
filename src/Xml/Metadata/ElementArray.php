@@ -38,18 +38,36 @@ class ElementArray
 	 */
 	private $callable;
 
+	/**
+	 * @serialize
+	 *
+	 * Namespace prefix
+	 */
+	private ?string $prefix;
+
+	/**
+	 * @serialize
+	 *
+	 * Item element namespace prefix
+	 */
+	private ?string $itemPrefix;
+
 
 	public function __construct(
 		?string $name = NULL,
 		?string $itemName = NULL,
 		?string $type = NULL,
-		?callable $callable = NULL
+		?callable $callable = NULL,
+		?string $prefix = NULL,
+		?string $itemPrefix = NULL,
 	)
 	{
 		$this->name = $name;
 		$this->itemName = $itemName;
 		$this->type = $type;
 		$this->callable = $callable;
+		$this->prefix = $prefix;
+		$this->itemPrefix = $itemPrefix;
 	}
 
 
@@ -73,5 +91,15 @@ class ElementArray
 	public function getCallable(): ?callable
 	{
 		return $this->callable;
+	}
+
+	public function getPrefix(): ?string
+	{
+		return $this->prefix;
+	}
+
+	public function getItemPrefix(): ?string
+	{
+		return $this->itemPrefix;
 	}
 }

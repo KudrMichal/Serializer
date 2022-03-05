@@ -43,13 +43,21 @@ class Element
 	 */
 	private $callable;
 
+	/**
+	 * @serialize
+	 *
+	 * Namespace prefix
+	 */
+	private ?string $prefix;
+
 
 	public function __construct(
 		?string $name = NULL,
 		bool $ignoreNull = FALSE,
 		string $dateFormat = 'd.m.Y h:i:s',
 		bool $cdata = FALSE,
-		?callable $callable = NULL
+		?callable $callable = NULL,
+		?string $prefix = NULL
 	)
 	{
 		$this->name = $name;
@@ -57,6 +65,7 @@ class Element
 		$this->dateFormat = $dateFormat;
 		$this->cdata = $cdata;
 		$this->callable = $callable;
+		$this->prefix = $prefix;
 	}
 
 	public function getName(): ?string
@@ -82,5 +91,10 @@ class Element
 	public function getCallable(): ?callable
 	{
 		return $this->callable;
+	}
+
+	public function getPrefix(): ?string
+	{
+		return $this->prefix;
 	}
 }
