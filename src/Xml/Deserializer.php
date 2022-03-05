@@ -76,10 +76,13 @@ class Deserializer
 		$type = \ltrim((string) $property->getType(), '?');
 
 		switch (TRUE) {
+			case $annotation->getCallable():
+				$property->setValue($object, \call_user_func($annotation->getCallable(), $element->textContent));
+				break;
 			case NativeTypes::isNative($type):
 				$property->setValue($object, NativeTypes::cast($type, $element->textContent));
 				break;
-			case \class_exists($type):
+			case class_exists($type):
 				$elementObject = (new \ReflectionClass($type))->newInstanceWithoutConstructor();
 				$this->deserializeObject($element, $elementObject);
 				$property->setValue($object, $elementObject);
@@ -93,6 +96,11 @@ class Deserializer
 		$attribute = $parentElement->getAttribute($annotation->getName() ?? $property->getName());
 		if ( ! $attribute) {
 			$property->setValue($object, NULL);
+			return;
+		}
+
+		if ($annotation->getCallable()) {
+			$property->setValue($object, \call_user_func($annotation->getCallable(), $attribute));
 			return;
 		}
 
@@ -121,6 +129,9 @@ class Deserializer
 		/** @var \DOMElement $item */
 		foreach ($items as $item) {
 			switch (TRUE) {
+				case $annotation->getCallable():
+					$property->setValue($object, \call_user_func($annotation->getCallable(), $item->textContent));
+					break;
 				case NativeTypes::isNative($type):
 					$values[] = NativeTypes::cast((string) $annotation->getType(), $item->textContent);
 					break;
@@ -147,6 +158,9 @@ class Deserializer
 		/** @var \DOMElement $item */
 		foreach ($items as $item) {
 			switch (TRUE) {
+				case $annotation->getCallable():
+					$property->setValue($object, \call_user_func($annotation->getCallable(), $item->textContent));
+					break;
 				case NativeTypes::isNative($type):
 					$values[] = NativeTypes::cast((string) $annotation->getType(), $item->textContent);
 					break;

@@ -8,13 +8,23 @@ class ElementArray
 	private ?string $name = NULL;
 	private ?string $itemName = NULL;
 	private ?string $type = NULL;
+	/**
+	 * @var callable|null
+	 */
+	private $callable;
 
 
-	public function __construct(?string $name = NULL, ?string $itemName = NULL, ?string $type = NULL)
+	public function __construct(
+		?string $name = NULL,
+		?string $itemName = NULL,
+		?string $type = NULL,
+		?callable $callable = NULL
+	)
 	{
 		$this->name = $name;
 		$this->itemName = $itemName;
 		$this->type = $type;
+		$this->callable = $callable;
 	}
 
 
@@ -33,5 +43,10 @@ class ElementArray
 	public function getType(): ?string
 	{
 		return $this->type;
+	}
+
+	public function getCallable(): ?callable
+	{
+		return $this->callable;
 	}
 }

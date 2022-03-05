@@ -2,6 +2,7 @@
 
 namespace KudrMichal\Serializer\Tests\Unit\Xml\Classes;
 
+use KudrMichal\Serializer\Unit\Xml\Classes\TestArrayStringAdapter;
 use KudrMichal\Serializer\Unit\Xml\Classes\TestObject;
 use KudrMichal\Serializer\Xml\Metadata as XML;
 
@@ -16,6 +17,9 @@ class Test
 
 	#[XML\Element]
 	private string $testString;
+
+	#[XML\Element(callable: [TestArrayStringAdapter::class, 'convert'])]
+	private array $testStringArrayAdapter;
 
 	#[XML\Element]
 	private bool $testBoolean;
@@ -40,6 +44,7 @@ class Test
 		int $testInt,
 		int $testAttributeInteger,
 		string $testString,
+		array $testStringArrayAdapter,
 		bool $testBoolean,
 		\DateTimeImmutable $testDate,
 		array $testArray,
@@ -51,6 +56,7 @@ class Test
 		$this->testInt = $testInt;
 		$this->testAttributeInteger = $testAttributeInteger;
 		$this->testString = $testString;
+		$this->testStringArrayAdapter = $testStringArrayAdapter;
 		$this->testBoolean = $testBoolean;
 		$this->testDate = $testDate;
 		$this->testArray = $testArray;
@@ -73,6 +79,11 @@ class Test
 	public function getTestString(): string
 	{
 		return $this->testString;
+	}
+
+	public function getTestStringArrayAdapter(): array
+	{
+		return $this->testStringArrayAdapter;
 	}
 
 	public function getTestBoolean(): bool

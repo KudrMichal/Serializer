@@ -26,6 +26,7 @@ class SerializerTest extends \PHPUnit\Framework\TestCase
 			321,
 			123,
 			'321',
+			['a', 'b', 'c'],
 			true,
 			new \DateTimeImmutable('2022-02-22'),
 			[1,2,3],
