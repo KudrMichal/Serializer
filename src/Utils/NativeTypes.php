@@ -37,7 +37,7 @@ class NativeTypes
 		return match ($type) {
 			\DateTimeInterface::class, \DateTimeImmutable::class => new \DateTimeImmutable($value),
 			\DateTime::class => new \DateTime($value),
-			'bool' => \is_string($value) ? \strtolower($value) === 'true' : \boolval($value),
+			'bool' => \is_string($value) ? \strtolower($value) === 'true' || \strtolower($value) === '1' : \boolval($value),
 			'float' => \floatval($value),
 			'string' => \strval($value),
 			'int' => \intval($value),
