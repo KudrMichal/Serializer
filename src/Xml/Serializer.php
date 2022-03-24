@@ -144,7 +144,7 @@ class Serializer
 			if ($annotation->getCallable()) {
 				$value = \call_user_func($annotation->getCallable(), $value);
 			}
-			$itemElement = $doc->createElement($annotation->getItemName());
+			$itemElement = $this->createElement($doc, $annotation->getItemName(), $annotation->getItemPrefix());
 			switch (TRUE) {
 				case \is_array($value):
 					throw SerializeException::elementContainsArray($property->getName());
@@ -173,7 +173,7 @@ class Serializer
 			if ($annotation->getCallable()) {
 				$value = \call_user_func($annotation->getCallable(), $value);
 			}
-			$itemElement = $doc->createElement($annotation->getName());
+			$itemElement = $this->createElement($doc, $annotation->getName(), $annotation->getPrefix());
 			switch (TRUE) {
 				case \is_array($value):
 					throw SerializeException::elementContainsArray($property->getName());
@@ -198,6 +198,6 @@ class Serializer
 			$name = $prefix . ':' . $name;
 		}
 
-		return $doc->createElementNS($nsUri, $name);
+		return $doc->createElement($name);
 	}
 }
