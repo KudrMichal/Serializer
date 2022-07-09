@@ -41,7 +41,7 @@ class Serializer
 		$doc->appendChild($root = $doc->createElement($rootName));
 
 		foreach ($document->getNamespaces() as $name => $namespace) {
-			$root->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:' . $name, $namespace);
+			$root->setAttributeNS('http://www.w3.org/2000/xmlns/', empty($name) || !is_string($name) ? 'xmlns' : 'xmlns:' . $name, $namespace);
 		}
 
 		$this->serializeObject($object, $root, $doc);
