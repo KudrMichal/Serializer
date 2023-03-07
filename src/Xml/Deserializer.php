@@ -11,6 +11,11 @@ use KudrMichal\Serializer\Xml\Metadata\Elements;
 
 class Deserializer
 {
+	/**
+	 * @template T
+	 * @param class-string<T> $class
+	 * @return T
+	 */
 	public function deserialize(\DOMDocument $xml, string $class): object
 	{
 		if ( ! \class_exists($class)) {
