@@ -11,6 +11,10 @@ class Deserializer
 {
 	/**
 	 * @throws DeserializeException
+	 *
+	 * @template T
+	 * @param class-string<T> $class
+	 * @return T
 	 */
 	public function deserialize(string $class, string $json): object
 	{
